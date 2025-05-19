@@ -14,11 +14,11 @@ const App = () => {
           element={authUser ? <HomePage /> : <Navigate to={"/login"} />}
         />
         <Route
-          path="/signup"
+          path="/login"
           element={!authUser ? <LoginPage /> : <Navigate to={"/"} />}
         />
         <Route
-          path="/login"
+          path="/signup"
           element={!authUser ? <SignUpPage /> : <Navigate to={"/"} />}
         />
       </Routes>
