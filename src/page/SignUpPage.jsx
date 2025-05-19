@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { Code, Eye, EyeOff, Loader2, Lock, Mail, User } from "lucide-react";
 import { z } from "zod";
 import CodeBackground from "../component/AuthImagePattern";
-
+import "../global.css"
 const SignUpSchema = z.object({
   email: z.string().email("Enter a valid email"),
   password: z
