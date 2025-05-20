@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 import { Code, Eye, EyeOff, Loader2, Lock, Mail, User } from "lucide-react";
 import { z } from "zod";
 import CodeBackground from "../component/AuthImagePattern";
-import "../global.css"
+import "../global.css";
+import { useAuthStore } from "../store/useAuthStore";
 const SignUpSchema = z.object({
   email: z.string().email("Enter a valid email"),
   password: z
@@ -19,8 +20,7 @@ const SignUpSchema = z.object({
 
 const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const { signup, isSigninUp } = useAuthStore();
   const {
     register,
     handleSubmit,
@@ -35,14 +35,11 @@ const SignUpPage = () => {
   const password = watch("password", "");
 
   const onSubmit = async (data) => {
-    setIsSubmitting(true);
     try {
       console.log("signup data", data);
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await signup(data);
     } catch (error) {
       console.error("SignUp failed:", error);
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -234,9 +231,9 @@ const SignUpPage = () => {
             <button
               type="submit"
               className="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-white bg-gradient-to-r from-primary to-cyan-500 hover:from-primary/90 hover:to-cyan-500/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary/50 transition-all duration-200"
-              disabled={isSubmitting}
+              disabled={isSigninUp}
             >
-              {isSubmitting ? (
+              {isSigninUp ? (
                 <>
                   <Loader2 className="h-5 w-5 animate-spin mr-2" />
                   Creating Account...

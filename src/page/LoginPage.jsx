@@ -6,6 +6,7 @@ import { Code, Eye, EyeOff, Loader2, Lock, Mail, User } from "lucide-react";
 import { z } from "zod";
 import CodeBackground from "../component/AuthImagePattern";
 import "../global.css";
+import { useAuthStore } from "../store/useAuthStore";
 
 const LonginSchema = z.object({
   email: z.string().email("Enter a valid email"),
@@ -19,8 +20,8 @@ const LonginSchema = z.object({
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const { isLoggingIn, login } = useAuthStore();
   const {
     register,
     handleSubmit,
@@ -31,14 +32,11 @@ const LoginPage = () => {
   });
 
   const onSubmit = async (data) => {
-    setIsSubmitting(true);
     try {
       console.log("signup data", data);
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await login(data);
     } catch (error) {
       console.error("SignUp failed:", error);
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -134,9 +132,9 @@ const LoginPage = () => {
             <button
               type="submit"
               className="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-white bg-gradient-to-r from-primary to-cyan-500 hover:from-primary/90 hover:to-cyan-500/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary/50 transition-all duration-200"
-              disabled={isSubmitting}
+              disabled={isLoggingIn}
             >
-              {isSubmitting ? (
+              {isLoggingIn ? (
                 <>
                   <Loader2 className="h-5 w-5 animate-spin mr-2" />
                   Logging in...
