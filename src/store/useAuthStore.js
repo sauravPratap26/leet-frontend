@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
+import Cookies from "js-cookie";
 export const useAuthStore = create((set) => ({
   authUser: null,
   isSigninUp: false,
@@ -39,9 +40,9 @@ export const useAuthStore = create((set) => ({
     set({ isLoggingIn: true });
     try {
       const res = await axiosInstance.post("/auth/login", data);
-      set({ authUser: res.data });
-
-      toast.success(res.data.message);
+      const response =res.data
+      set({ authUser: response.data });
+      toast.success(response.data.message);
     } catch (error) {
       console.log("Error logging in", error);
       toast.error("Error logging in");
