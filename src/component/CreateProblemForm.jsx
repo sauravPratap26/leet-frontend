@@ -16,7 +16,6 @@ import Editor from "@monaco-editor/react";
 import { useState } from "react";
 import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 import {
   noData,
   sampledpData,
@@ -31,7 +30,6 @@ import CreateProblemEditor from "./CreateProblemEditor";
 import CreateProblemAdditional from "./CreateProblemAdditional";
 
 const CreateProblemForm = () => {
-  const navigation = useNavigate();
   const {
     register,
     control,
@@ -82,24 +80,6 @@ const CreateProblemForm = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit = async (value) => {
-    try {
-      setIsLoading(true);
-      const res = await axiosInstance.post("/problems/create-problem", value);
-      console.log(res.data);
-      toast.success(res.data.message || "Problem Created successfully⚡");
-      navigation("/");
-    } catch (error) {
-      console.log(error);
-      toast.error("Error creating problem");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const onError = (error) => {
-    console.log(error);
-  };
   const loadSampleData = (selected = "random") => {
     let sampleData1;
     if (selected == "reset") {
@@ -115,6 +95,24 @@ const CreateProblemForm = () => {
     // Reset the form with sample data
     reset(sampleData1);
   };
+  const onSubmit = async (value) => {
+    try {
+      setIsLoading(true);
+      const res = await axiosInstance.post("/problem/create-problem", value);
+      toast.success(res.data.data.message || "Problem Created successfully⚡");
+      loadSampleData("reset")
+    } catch (error) {
+      console.log(error);
+      toast.error("Error creating problem");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const onError = (error) => {
+    console.log(error);
+  };
+  
   return (
     <div className=" py-8 px-4 w-full min-w-max">
       <div className="card bg-base-100 shadow-xl">
