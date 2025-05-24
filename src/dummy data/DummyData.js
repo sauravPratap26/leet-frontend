@@ -318,22 +318,22 @@ export const sampleStringProblem = {
     rl.close();
   });`,
     PYTHON: `class Solution:
-      def isPalindrome(self, s: str) -> bool:
-          # Write your code here
-          pass
-  
-  # Input parsing
-  if __name__ == "__main__":
-      import sys
-      # Read the input string
-      s = sys.stdin.readline().strip()
-      
-      # Call solution
-      sol = Solution()
-      result = sol.isPalindrome(s)
-      
-      # Output result
-      print(str(result).lower())  # Convert True/False to lowercase true/false`,
+    def isPalindrome(self, s: str) -> bool:
+        # Write your code here
+        pass
+
+# Input parsing
+if __name__ == "__main__":
+    import sys
+    # Read the input string
+    s = sys.stdin.readline().strip()
+
+    # Call solution
+    sol = Solution()
+    result = sol.isPalindrome(s)
+
+    # Output result
+    print(str(result).lower())  # Convert True/False to lowercase true/false`,
     JAVA: `import java.util.Scanner;
 
 public class Main {
@@ -397,25 +397,26 @@ public class Main {
     rl.close();
   });`,
     PYTHON: `class Solution:
-      def isPalindrome(self, s: str) -> bool:
-          # Convert to lowercase and keep only alphanumeric characters
-          filtered_chars = [c.lower() for c in s if c.isalnum()]
-          
-          # Check if it's a palindrome
-          return filtered_chars == filtered_chars[::-1]
-  
-  # Input parsing
-  if __name__ == "__main__":
-      import sys
-      # Read the input string
-      s = sys.stdin.readline().strip()
-      
-      # Call solution
-      sol = Solution()
-      result = sol.isPalindrome(s)
-      
-      # Output result
-      print(str(result).lower())  # Convert True/False to lowercase true/false`,
+    def isPalindrome(self, s: str) -> bool:
+        # Convert to lowercase and keep only alphanumeric characters
+        filtered_chars = [c.lower() for c in s if c.isalnum()]
+        
+        # Check if it's a palindrome
+        return filtered_chars == filtered_chars[::-1]
+
+# Input parsing
+if __name__ == "__main__":
+    import sys
+    # Read the input string
+    s = sys.stdin.readline().strip()
+    
+    # Call solution
+    sol = Solution()
+    result = sol.isPalindrome(s)
+    
+    # Output result
+    print(str(result).lower())  # Convert True/False to lowercase true/false
+`,
     JAVA: `import java.util.Scanner;
 
 public class Main {
