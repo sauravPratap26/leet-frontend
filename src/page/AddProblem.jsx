@@ -1,11 +1,12 @@
 import React from "react";
 import CreateProblemForm from "../component/CreateProblemForm";
+import BackWrapper from "../utility/Back";
 
 const AddProblem = () => {
   return (
-    <div className="w-full">
+    <BackWrapper to="/" label="Back to Home">
       <CreateProblemForm />
-    </div>
+    </BackWrapper>
   );
 };
 
