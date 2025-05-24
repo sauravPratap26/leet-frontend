@@ -8,6 +8,7 @@ import Layout from "./layout/Layout";
 import { Loader } from "lucide-react";
 import AdminRoute from "./component/AdminRoute";
 import AddProblem from "./page/AddProblem";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   const { isCheckingAuth, authUser, checkAuth } = useAuthStore();
@@ -28,6 +29,7 @@ const App = () => {
 
   return (
     <div className="flex flex-col items-center justify-start">
+      <Toaster position="top-right" reverseOrder={false} />
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route
