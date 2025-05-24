@@ -1,4 +1,3 @@
-import React from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -79,6 +78,8 @@ const CreateProblemForm = () => {
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [errorData, setErrorData] = useState(null);
 
   const loadSampleData = (selected = "random") => {
     let sampleData1;
@@ -100,9 +101,19 @@ const CreateProblemForm = () => {
       setIsLoading(true);
       const res = await axiosInstance.post("/problem/create-problem", value);
       toast.success(res.data.data.message || "Problem Created successfully⚡");
-      loadSampleData("reset")
+      loadSampleData("reset");
     } catch (error) {
       console.log(error);
+
+      // Open modal with error response data
+      if (error.response?.data?.code == 1011) {
+        setErrorData(error.response.data);
+        setModalOpen(true);
+      }else if( error.response?.data){
+        setErrorData(error.response.data);
+        setModalOpen(true);
+      }
+
       toast.error("Error creating problem");
     } finally {
       setIsLoading(false);
@@ -112,7 +123,7 @@ const CreateProblemForm = () => {
   const onError = (error) => {
     console.log(error);
   };
-  
+
   return (
     <div className=" py-8 px-4 w-full min-w-max">
       <div className="card bg-base-100 shadow-xl">
@@ -171,6 +182,56 @@ const CreateProblemForm = () => {
           </form>
         </div>
       </div>
+      {modalOpen && (
+        <div className="modal modal-open" role="dialog">
+          <div className="modal-box max-w-2xl">
+            {/* Modal Title */}
+            <h3 className="font-bold text-xl text-error mb-2">
+              Oops, something didn't go right!
+            </h3>
+
+            {/* Error Message Description */}
+            <p className="text-base text-base-content mb-4">
+              {errorData?.message || "Something went wrong during submission."}
+            </p>
+
+            {/* Error Details Section */}
+            {errorData?.data?.error?.details && (
+              <div className="bg-base-200 p-4 rounded space-y-2">
+                <p className="font-semibold text-sm">
+                  {errorData.data.error.message}
+                </p>
+
+                <div className="text-sm space-y-1">
+                  <p>
+                    <span className="font-medium">Input:</span>{" "}
+                    {errorData.data.error.details.input}
+                  </p>
+                  <p>
+                    <span className="font-medium">Expected:</span>{" "}
+                    {errorData.data.error.details.expected}
+                  </p>
+                  <p>
+                    <span className="font-medium">Received:</span>{" "}
+                    {errorData.data.error.details.received.replace(/\n/g, "")}
+                  </p>
+                  <p>
+                    <span className="font-medium">Status:</span>{" "}
+                    {errorData.data.error.details.status}
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Modal Actions */}
+            <div className="modal-action">
+              <button className="btn" onClick={() => setModalOpen(false)}>
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
