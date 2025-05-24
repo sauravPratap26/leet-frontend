@@ -447,3 +447,27 @@ public class Main {
 `,
   },
 };
+
+export const noData = {
+  title: "",
+  description: "",
+  difficulty: "EASY",
+  tags: [],
+  constraints: "",
+  testcases: [{ input: "", output: "" }],
+  examples: {
+    JAVASCRIPT: { input: "", output: "", explanation: "" },
+    PYTHON: { input: "", output: "", explanation: "" },
+    JAVA: { input: "", output: "", explanation: "" },
+  },
+  codeSnippets: {
+    JAVASCRIPT: "function solution() {\n  // Write your code here\n}",
+    PYTHON: "def solution():\n    # Write your code here\n    pass",
+    JAVA: "public class Solution {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}",
+  },
+  referenceSolutions: {
+    JAVASCRIPT: "// Add your reference solution here",
+    PYTHON: "# Add your reference solution here",
+    JAVA: "// Add your reference solution here",
+  },
+};
