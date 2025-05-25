@@ -9,6 +9,8 @@ import { Loader } from "lucide-react";
 import AdminRoute from "./component/AdminRoute";
 import AddProblem from "./page/AddProblem";
 import { Toaster } from "react-hot-toast";
+import UserRoute from "./component/UserRoute";
+import AllProblems from "./page/AllProblems";
 
 const App = () => {
   const { isCheckingAuth, authUser, checkAuth } = useAuthStore();
@@ -17,7 +19,6 @@ const App = () => {
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
-
   // While checking auth, show loader
   if (isCheckingAuth && !authUser) {
     return (
@@ -48,10 +49,20 @@ const App = () => {
           element={!authUser ? <SignUpPage /> : <Navigate to={"/"} />}
         />
 
-        <Route element={<AdminRoute/>}>
+        <Route element={<AdminRoute />}>
           <Route
             path="/add-problem"
             element={authUser ? <AddProblem /> : <Navigate to="/" />}
+          />
+          {/* <Route
+          path ="/get-problems"
+          element={authUds}
+          /> */}
+        </Route>
+        <Route element={<UserRoute />}>
+          <Route
+            path="/all"
+            element={authUser ? <AllProblems /> : <Navigate to="/" />}
           />
         </Route>
       </Routes>

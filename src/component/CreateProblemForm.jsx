@@ -10,8 +10,6 @@ import {
   CheckCircle2,
   Download,
 } from "lucide-react";
-import { PanelGroup, Panel, PanelResizeHandle } from "react-resizable-panels";
-import Editor from "@monaco-editor/react";
 import { useState } from "react";
 import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
