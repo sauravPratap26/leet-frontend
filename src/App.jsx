@@ -61,7 +61,7 @@ const App = () => {
         </Route>
         <Route element={<UserRoute />}>
           <Route
-            path="/all"
+            path="/all-problems"
             element={authUser ? <AllProblems /> : <Navigate to="/" />}
           />
         </Route>

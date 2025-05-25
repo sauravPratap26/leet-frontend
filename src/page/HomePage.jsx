@@ -137,7 +137,7 @@ const HomePage = () => {
       {/* Action Buttons */}
 
       <div className="flex gap-4 mt-8 z-10 items-center">
-        <Link to="/all" className="btn btn-primary text-lg">
+        <Link to="/all-problems" className="btn btn-primary text-lg">
           Explore Problems
         </Link>
 
