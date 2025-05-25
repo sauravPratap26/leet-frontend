@@ -68,13 +68,11 @@ const HomePage = () => {
     setModalOpen(false); // close modal
   };
   const onDelete = async (data) => {
-    console.log("delete data",data)
     await deletePlaylist(data); // data = { title, description }
     deleteReset(); // clear form
     setDeleteModalOpen(false); // close modal
   };
   const onEdit = async (data) => {
-    console.log(data);
     await editPlaylistDetails(data);
     editReset(); // clear form
     setEditModalOpen(false); // close modal
@@ -117,10 +115,6 @@ const HomePage = () => {
     }
   }, [playlist, deleteModalOpen, deleteReset, authUser.id]);
 
-  // States for Edit Modal
-
-  const handleDeletePlaylist = (id) => {};
-  console.log("%%%", playlists);
   const watchDeleteConfirm = watch("confirmName");
 
   return (
