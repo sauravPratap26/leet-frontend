@@ -215,7 +215,7 @@ const HomePage = () => {
               </div>
             </Link>
 
-            <div className="absolute bottom-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-200 transform translate-y-2 group-hover:translate-y-0">
+            <div className="absolute bottom-3 right-3 flex gap-2 opacity-100 transition-all duration-200 z-20">
               <div className="tooltip tooltip-top" data-tip="Coming in v2">
                 <button
                   className="btn btn-sm bg-slate-800/80 hover:bg-purple-600/80 border-slate-600/50 hover:border-purple-500/50 text-slate-300 hover:text-white backdrop-blur-sm transition-all duration-200"
@@ -252,7 +252,6 @@ const HomePage = () => {
               </button>
             </div>
 
-            {/* Bottom accent line */}
             <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-purple-500/0 via-purple-500/60 to-blue-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </div>
         ))}
