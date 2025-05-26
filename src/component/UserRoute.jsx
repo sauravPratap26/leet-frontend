@@ -1,7 +1,8 @@
-import React from 'react'
+import React from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import { Loader } from "lucide-react";
 import { Navigate, Outlet } from "react-router-dom";
+import BackWrapper from "../utility/Back";
 
 const UserRoute = () => {
   const { authUser, isCheckingAuth } = useAuthStore();
@@ -15,7 +16,11 @@ const UserRoute = () => {
   if (!authUser) {
     return <Navigate to="/" />;
   }
-  return <Outlet />;
-}
+  return (
+    <BackWrapper to="/" label="Back to Home">
+      <Outlet />
+    </BackWrapper>
+  );
+};
 
-export default UserRoute
+export default UserRoute;
