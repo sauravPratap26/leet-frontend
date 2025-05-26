@@ -63,19 +63,19 @@ const HomePage = () => {
   });
   const [modalOpen, setModalOpen] = useState(false);
   const onSubmit = async (data) => {
-    await addPlaylist(data); // data = { title, description }
-    reset(); // clear form
-    setModalOpen(false); // close modal
+    await addPlaylist(data);
+    reset();
+    setModalOpen(false);
   };
   const onDelete = async (data) => {
-    await deletePlaylist(data); // data = { title, description }
-    deleteReset(); // clear form
-    setDeleteModalOpen(false); // close modal
+    await deletePlaylist(data);
+    deleteReset();
+    setDeleteModalOpen(false);
   };
   const onEdit = async (data) => {
     await editPlaylistDetails(data);
-    editReset(); // clear form
-    setEditModalOpen(false); // close modal
+    editReset();
+    setEditModalOpen(false);
   };
   const handleCancel = () => {
     reset();
@@ -121,20 +121,15 @@ const HomePage = () => {
     <div className="min-h-screen flex flex-col items-center mt-14 px-4 relative">
       {/* Background blur */}
       <div className="absolute top-16 left-0 w-1/3 h-1/3 bg-primary opacity-30 blur-3xl rounded-md bottom-9" />
-
-      {/* Heading */}
       <h1 className="text-4xl font-extrabold z-10 text-center">
         Welcome to <span className="text-primary">LeetLab</span>
       </h1>
 
-      {/* Subtitle */}
       <p className="mt-4 text-center text-lg font-semibold text-gray-500 dark:text-gray-400 z-10 max-w-2xl">
         A Platform Inspired by Leetcode which helps you to prepare for coding
         interviews and improve your coding skills by solving real coding
         problems.
       </p>
-
-      {/* Action Buttons */}
 
       <div className="flex gap-4 mt-8 z-10 items-center">
         <Link to="/all-problems" className="btn btn-primary text-lg">
@@ -167,24 +162,23 @@ const HomePage = () => {
             key={playlist?.id}
             className="group relative bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-sm border border-slate-700/50 rounded-xl shadow-lg hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300 overflow-hidden min-w-[368px]"
           >
-            {/* Subtle gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-            {/* Animated border glow */}
             <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-purple-500/20 via-transparent to-blue-500/20 blur-sm -z-10"></div>
 
             <Link
               to={`/playlist-page/${playlist?.id}`}
               className="block p-6 pb-16 relative z-10"
+              onClick={() => {
+                selectPlaylist(playlist);
+              }}
             >
-              {/* Header with title */}
               <div className="mb-4">
                 <h2 className="text-xl font-bold text-white group-hover:text-purple-300 transition-colors duration-200 tracking-tight">
                   {playlist?.name}
                 </h2>
               </div>
 
-              {/* Description */}
               <div className="mb-4">
                 <p className="text-slate-400 text-sm leading-relaxed font-medium">
                   {playlist?.description
@@ -195,7 +189,6 @@ const HomePage = () => {
                 </p>
               </div>
 
-              {/* Stats */}
               <div className="flex items-center gap-2 text-xs text-slate-500 font-medium">
                 <span className="inline-flex items-center gap-1 px-2 py-1 bg-slate-800/60 text-slate-300 rounded-md border border-slate-700/50">
                   <svg
@@ -222,9 +215,7 @@ const HomePage = () => {
               </div>
             </Link>
 
-            {/* Action buttons */}
             <div className="absolute bottom-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-200 transform translate-y-2 group-hover:translate-y-0">
-              {/* Settings Icon with Tooltip */}
               <div className="tooltip tooltip-top" data-tip="Coming in v2">
                 <button
                   className="btn btn-sm bg-slate-800/80 hover:bg-purple-600/80 border-slate-600/50 hover:border-purple-500/50 text-slate-300 hover:text-white backdrop-blur-sm transition-all duration-200"
@@ -267,7 +258,6 @@ const HomePage = () => {
         ))}
       </div>
 
-      {/* Create Playlist Modal */}
       {modalOpen && (
         <dialog open className="modal modal-open">
           <div className="modal-box">
@@ -318,7 +308,6 @@ const HomePage = () => {
         </dialog>
       )}
 
-      {/* Edit Playlist Modal */}
       {editModalOpen && (
         <dialog open className="modal modal-open">
           <div className="modal-box">
