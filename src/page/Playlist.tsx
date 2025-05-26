@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { FixedSizeList as List } from "react-window";
 import { useParams } from "react-router-dom";
 import { usePlaylistStore } from "../store/usePlaylistStore";
@@ -7,6 +7,7 @@ import HeadingComponent from "../component/ProblemComponents/HeadingComponent";
 import SearchComponent from "../component/ProblemComponents/SearchComponent";
 import AutoSizer from "react-virtualized-auto-sizer";
 import ProblemTile from "../component/ProblemComponents/ProblemTileComponent";
+import useSearchHook from "../hooks/useSearchHook";
 
 const Playlist = () => {
   const { playlistId } = useParams();
@@ -15,8 +16,27 @@ const Playlist = () => {
   useEffect(() => {
     getPlaylistQuestions(playlistId);
   }, []);
-  console.log(playlistQuestions)
-  const [activeTab, setActiveTab] = useState("global");
+
+  const [activeTab, setActiveTab] = useState("problems");
+  const originalQuestions = usePlaylistStore(
+    (state) => state.playlistQuestions
+  );
+
+  const [searchText, setSearchText] = useState("");
+  const [tagText, setTagText] = useState("");
+  const [difficulty, setDifficulty] = useState("All");
+  const [sortOrder, setSortOrder] = useState("latest");
+  const { questionSearch } = useSearchHook();
+  const filteredQuestions = useMemo(() => {
+    return questionSearch(
+      originalQuestions,
+      searchText,
+      tagText,
+      difficulty,
+      sortOrder
+    );
+  }, [originalQuestions, searchText, tagText, difficulty, sortOrder]);
+
   return (
     <div
       className="flex h-screen bg-base-100 scrollbar-hide"
@@ -32,11 +52,22 @@ const Playlist = () => {
         <div className="p-4 border-b border-base-300 bg-base-100">
           <HeadingComponent activeTab={activeTab} />
 
-          {!["analytics", "settings"].includes(activeTab) && <SearchComponent />}
+          {!["analytics", "settings"].includes(activeTab) && (
+            <SearchComponent
+              searchText={searchText}
+              setSearchText={setSearchText}
+              tagText={tagText}
+              setTagText={setTagText}
+              difficulty={difficulty}
+              setDifficulty={setDifficulty}
+              sortOrder={sortOrder}
+              setSortOrder={setSortOrder}
+            />
+          )}
         </div>
 
         <div className="flex-1 overflow-auto">
-          {playlistQuestions.length === 0 && !isPlaylistLoading ? (
+          {filteredQuestions.length === 0 && !isPlaylistLoading ? (
             <div className="flex items-center justify-center h-full">
               <p className="text-base-content/50">No problems found</p>
             </div>
@@ -45,7 +76,7 @@ const Playlist = () => {
               {({ height, width }) => (
                 <List
                   height={height}
-                  itemCount={playlistQuestions.length}
+                  itemCount={filteredQuestions.length}
                   itemSize={180}
                   width={width}
                   // onScroll={onScroll}
@@ -53,7 +84,7 @@ const Playlist = () => {
                   {({ index, style }) => {
                     return (
                       <ProblemTile
-                        problem={playlistQuestions[index]}
+                        problem={filteredQuestions[index]}
                         style={style}
                         type={"playlistTile"}
                       />
