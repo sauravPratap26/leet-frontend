@@ -10,7 +10,9 @@ import AdminRoute from "./component/AdminRoute";
 import AddProblem from "./page/AddProblem";
 import { Toaster } from "react-hot-toast";
 import UserRoute from "./component/UserRoute";
-import AllProblems from "./page/AllProblems";
+import AllProblemsComponent from "./component/ProblemComponents/AllProblemsComponent";
+import ProblemPage from "./page/ProblemPage";
+import Playlist from "./page/Playlist";
 
 const App = () => {
   const { isCheckingAuth, authUser, checkAuth } = useAuthStore();
@@ -62,7 +64,15 @@ const App = () => {
         <Route element={<UserRoute />}>
           <Route
             path="/all-problems"
-            element={authUser ? <AllProblems /> : <Navigate to="/" />}
+            element={authUser ? <AllProblemsComponent /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/playlist-page/:playlistId"
+            element={authUser ? <Playlist /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/problem/:id"
+            element={authUser ? <ProblemPage /> : <Navigate to="/login" />}
           />
         </Route>
       </Routes>
