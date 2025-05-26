@@ -1,23 +1,33 @@
-// components/BackWrapper.tsx
-import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
-const BackWrapper = ({ to = "/", children, label = "Back to Home" }) => {
+const BackWrapper = ({ children }) => {
+  const navigate = useNavigate();
+
   return (
-    <div className="w-full space-y-4">
+    <div className="h-screen flex flex-col w-full space-y-4 overflow-hidden">
       {/* Back Button */}
       <div className="sticky top-0 z-10 bg-base-100 border-b border-base-200 py-3 px-2 md:px-4 flex items-center shadow-sm">
-        <Link
-          to={to}
+        <button
+          onClick={() => navigate(-1)}
           className="inline-flex items-center text-sm md:text-base text-primary hover:text-primary/80 transition gap-2"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>{label}</span>
-        </Link>
+          <span>Back</span>
+        </button>
       </div>
 
-      {/* Main Content */}
-      <div className="px-2 md:px-4">{children}</div>
+      {/* Main Content Scrollable Without Scrollbar */}
+      <div
+        className="flex-1 overflow-auto px-2 md:px-4"
+        style={{
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+        }}
+      >
+        <style>{`::-webkit-scrollbar { display: none; }`}</style>
+        {children}
+      </div>
     </div>
   );
 };
