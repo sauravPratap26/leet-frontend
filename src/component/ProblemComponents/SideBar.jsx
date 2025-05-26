@@ -9,6 +9,7 @@ import {
   BookImage,
   ChartBar,
   PersonStanding,
+  Settings,
 } from "lucide-react";
 import { usePlaylistStore } from "../../store/usePlaylistStore";
 const SideBar = ({ setActiveTab, activeTab, type }) => {
@@ -47,11 +48,11 @@ const SideBar = ({ setActiveTab, activeTab, type }) => {
       icon: <ChartBar size={18} className="mr-2" />,
       key: "analytics",
     },
-    {
-      label: "About",
-      icon: <PersonStanding size={18} className="mr-2" />,
-      key: "about",
-    },
+    // {
+    //   label: "Settings",
+    //   icon: <Settings size={18} className="mr-2" />,
+    //   key: "settings",
+    // },
     ]
   }
   return (
