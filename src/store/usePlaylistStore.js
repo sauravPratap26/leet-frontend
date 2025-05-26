@@ -6,6 +6,7 @@ export const usePlaylistStore = create((set) => ({
   playlist: null,
   isPlaylistLoading: false,
   isPlaylistsLoading: false,
+  playlistQuestions: [],
 
   selectPlaylist: async (playlist) => {
     try {
@@ -19,7 +20,6 @@ export const usePlaylistStore = create((set) => ({
     try {
       set({ isPlaylistsLoading: true });
       const res = await axiosInstance.get("/playlist/");
-      console.log("***", res.data.data);
       set({ playlists: res.data.data });
     } catch (error) {
       console.log("Error getting all playlists", error);
@@ -41,7 +41,6 @@ export const usePlaylistStore = create((set) => ({
         playlists: [createdPlaylist, ...state.playlists],
       }));
 
-      console.log(res.data.data);
     } catch (error) {
       console.log("Error creating playlist", error);
       toast.error("Error creating playlist");
@@ -108,6 +107,30 @@ export const usePlaylistStore = create((set) => ({
       toast.error("Error deleting playlist");
     } finally {
       set({ playlist: null });
+    }
+  },
+
+  addProblemToPlaylist: async (reqBody) => {
+    try {
+      await axiosInstance.post("/playlist/add-problem", reqBody);
+      toast.success("Problem added");
+    } catch (error) {
+      console.log("Error adding question to playlist", error);
+      toast.error("Error adding question to playlist");
+    }
+  },
+
+  getPlaylistQuestions: async (playListId) => {
+    try {
+      const id = playListId;
+      set({ isPlaylistLoading: true });
+      const res = await axiosInstance.get(`/playlist/${id}`);
+      set({ playlistQuestions: res.data.data });
+    } catch (error) {
+      console.log("Error adding question to playlist", error);
+      toast.error("Error adding question to playlist");
+    } finally {
+      set({ isPlaylistLoading: false });
     }
   },
 }));
