@@ -165,61 +165,104 @@ const HomePage = () => {
         {playlists?.map((playlist) => (
           <div
             key={playlist?.id}
-            className="card border-neutral-700 bg-base-300 shadow-xl hover:shadow-2xl transition relative min-w-[368px]"
+            className="group relative bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-sm border border-slate-700/50 rounded-xl shadow-lg hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300 overflow-hidden min-w-[368px]"
           >
+            {/* Subtle gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+            {/* Animated border glow */}
+            <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-purple-500/20 via-transparent to-blue-500/20 blur-sm -z-10"></div>
+
             <Link
               to={`/playlist-page/${playlist?.id}`}
-              className="card-body pb-14"
+              className="block p-6 pb-16 relative z-10"
             >
-              <h2 className="card-title">{playlist?.name}</h2>
-              <p className="text-gray-500">
-                {playlist?.description
-                  ? playlist.description.length > 30
-                    ? playlist.description.slice(0, 30) + "..."
-                    : playlist.description
-                  : ""}
-              </p>
+              {/* Header with title */}
+              <div className="mb-4">
+                <h2 className="text-xl font-bold text-white group-hover:text-purple-300 transition-colors duration-200 tracking-tight">
+                  {playlist?.name}
+                </h2>
+              </div>
 
-              <div className="mt-2 text-sm text-gray-400">
-                {playlist?.problems?.length} Questions • Last Edit :{" "}
-                {playlist?.updatedAt &&
-                  new Date(playlist.updatedAt).toLocaleDateString()}
+              {/* Description */}
+              <div className="mb-4">
+                <p className="text-slate-400 text-sm leading-relaxed font-medium">
+                  {playlist?.description
+                    ? playlist.description.length > 80
+                      ? playlist.description.slice(0, 80) + "..."
+                      : playlist.description
+                    : "No description available"}
+                </p>
+              </div>
+
+              {/* Stats */}
+              <div className="flex items-center gap-2 text-xs text-slate-500 font-medium">
+                <span className="inline-flex items-center gap-1 px-2 py-1 bg-slate-800/60 text-slate-300 rounded-md border border-slate-700/50">
+                  <svg
+                    className="w-3 h-3"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  {playlist?.problems?.length} Questions
+                </span>
+                <span className="text-slate-600">•</span>
+                <span>
+                  Last Edit:{" "}
+                  {playlist?.updatedAt &&
+                    new Date(playlist.updatedAt).toLocaleDateString()}
+                </span>
               </div>
             </Link>
 
-            {/* Icon buttons */}
-            <div className="absolute bottom-3 right-3 flex gap-3">
-              {/* Copy Icon with Tooltip */}
-              <div className="tooltip" data-tip="Coming in v2">
-                <button className="btn btn-ghost btn-sm" type="button">
-                  <Settings className="w-5 h-5" />
+            {/* Action buttons */}
+            <div className="absolute bottom-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-200 transform translate-y-2 group-hover:translate-y-0">
+              {/* Settings Icon with Tooltip */}
+              <div className="tooltip tooltip-top" data-tip="Coming in v2">
+                <button
+                  className="btn btn-sm bg-slate-800/80 hover:bg-purple-600/80 border-slate-600/50 hover:border-purple-500/50 text-slate-300 hover:text-white backdrop-blur-sm transition-all duration-200"
+                  type="button"
+                >
+                  <Settings className="w-4 h-4" />
                 </button>
               </div>
 
               {/* Edit Icon */}
               <button
-                className="btn btn-ghost btn-sm"
-                onClick={() => {
+                className="btn btn-sm bg-slate-800/80 hover:bg-blue-600/80 border-slate-600/50 hover:border-blue-500/50 text-slate-300 hover:text-white backdrop-blur-sm transition-all duration-200"
+                onClick={(e) => {
+                  e.preventDefault();
                   selectPlaylist(playlist);
                   setEditModalOpen(true);
                 }}
                 type="button"
               >
-                <Edit className="w-5 h-5" />
+                <Edit className="w-4 h-4" />
               </button>
 
               {/* Delete Icon */}
               <button
-                className="btn btn-ghost btn-sm"
-                onClick={() => {
+                className="btn btn-sm bg-slate-800/80 hover:bg-red-600/80 border-slate-600/50 hover:border-red-500/50 text-slate-300 hover:text-white backdrop-blur-sm transition-all duration-200"
+                onClick={(e) => {
+                  e.preventDefault();
                   setDeleteModalOpen(true);
                   selectPlaylist(playlist);
                 }}
                 type="button"
               >
-                <Trash2 className="w-5 h-5 text-red-500" />
+                <Trash2 className="w-4 h-4" />
               </button>
             </div>
+
+            {/* Bottom accent line */}
+            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-purple-500/0 via-purple-500/60 to-blue-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </div>
         ))}
       </div>
