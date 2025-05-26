@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import { toast } from "react-hot-toast";
-export const usePlaylistStore = create((set) => ({
+export const usePlaylistStore = create((set, get) => ({
   playlists: [],
   playlist: null,
   isPlaylistLoading: false,
@@ -40,7 +40,6 @@ export const usePlaylistStore = create((set) => ({
       set((state) => ({
         playlists: [createdPlaylist, ...state.playlists],
       }));
-
     } catch (error) {
       console.log("Error creating playlist", error);
       toast.error("Error creating playlist");
@@ -52,21 +51,18 @@ export const usePlaylistStore = create((set) => ({
   editPlaylistDetails: async (reqBody) => {
     try {
       const res = await axiosInstance.post("/playlist/edit-playlist", reqBody);
-      const updatedPlaylist = res.data.data; // assuming updated playlist is returned here
+      const updatedPlaylist = res.data.data;
       const editedPlaylistId = updatedPlaylist.id;
 
       set((state) => {
         const playlists = [...state.playlists];
 
-        // Find the index of the edited playlist
         const index = playlists.findIndex((p) => p.id === editedPlaylistId);
 
         if (index !== -1) {
-          // Remove the old playlist
           playlists.splice(index, 1);
         }
 
-        // Add the updated playlist at the beginning
         return {
           playlists: [updatedPlaylist, ...playlists],
         };
@@ -89,15 +85,12 @@ export const usePlaylistStore = create((set) => ({
       set((state) => {
         const playlists = [...state.playlists];
 
-        // Find the index of the edited playlist
         const index = playlists.findIndex((p) => p.id === res.data.data.id);
 
         if (index !== -1) {
-          // Remove the old playlist
           playlists.splice(index, 1);
         }
 
-        // Add the updated playlist at the beginning
         return {
           playlists: [...playlists],
         };
@@ -129,6 +122,40 @@ export const usePlaylistStore = create((set) => ({
     } catch (error) {
       console.log("Error adding question to playlist", error);
       toast.error("Error adding question to playlist");
+    } finally {
+      set({ isPlaylistLoading: false });
+    }
+  },
+
+  deletePlaylistQuestions: async (problemIds) => {
+    const { playlist } = get();
+
+    try {
+      const reqBody = {
+        problemIds,
+        playListId: playlist.id,
+      };
+
+      set({ isPlaylistLoading: true });
+
+      const res = await axiosInstance.delete("/playlist/remove-problem", {
+        data: reqBody,
+      });
+
+      set((state) => {
+        if (res.data.statusCode == 200) {
+          const updatedQuestions = state.playlistQuestions.filter(
+            (q) => q.id !== problemIds[0]
+          );
+
+          return {
+            playlistQuestions: updatedQuestions,
+          };
+        }
+      });
+    } catch (error) {
+      console.log("Error removing questions from playlist", error);
+      toast.error("Error removing questions from playlist");
     } finally {
       set({ isPlaylistLoading: false });
     }
