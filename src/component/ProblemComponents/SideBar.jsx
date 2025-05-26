@@ -13,7 +13,6 @@ import {
 import { usePlaylistStore } from "../../store/usePlaylistStore";
 const SideBar = ({ setActiveTab, activeTab, type }) => {
   const { playlist } = usePlaylistStore();
-  console.log(playlist, type);
   let sideOptions = [
     {
       label: "Global Problems",
