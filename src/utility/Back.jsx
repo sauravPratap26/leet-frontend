@@ -1,9 +1,10 @@
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
+import { useLocation } from "react-router-dom";
 const BackWrapper = ({ children }) => {
   const navigate = useNavigate();
-
+  const location = useLocation();
+  const isLogin = location.pathname === "/login";
   return (
     <div className="h-screen flex flex-col w-full space-y-4 overflow-hidden">
       <div className="sticky top-0 z-10 bg-base-100 border-b border-base-200 py-3 px-2 md:px-4 flex items-center shadow-sm">
@@ -24,7 +25,13 @@ const BackWrapper = ({ children }) => {
         }}
       >
         <style>{`::-webkit-scrollbar { display: none; }`}</style>
-        {children}
+        {!isLogin ? (
+          children
+        ) : (
+          <div className="w-full flex justify-center">
+            <div className="w-9/10 max-w-4xl px-4">{children}</div>
+          </div>
+        )}
       </div>
     </div>
   );
