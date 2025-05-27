@@ -280,7 +280,7 @@ const TagsCharts = () => {
                   label
                 >
                   {submissionData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={userColor[index]} />
+                    <Cell key={`cell-${index}`} fill={pieColors[index]} />
                   ))}
                 </Pie>
                 <Tooltip />
@@ -313,7 +313,7 @@ const TagsCharts = () => {
                   label
                 >
                   {bioData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={pieColors[index]} />
+                    <Cell key={`cell-${index}`} fill={userColor[index]} />
                   ))}
                 </Pie>
                 <Tooltip />
