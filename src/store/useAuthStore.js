@@ -8,6 +8,7 @@ export const useAuthStore = create((set) => ({
   isLoggingIn: false,
   isCheckingAuth: false,
   avatar: null,
+  userTags: [],
 
   checkAuth: async () => {
     set({ isCheckingAuth: true });
@@ -45,6 +46,7 @@ export const useAuthStore = create((set) => ({
       const response = res.data;
       set({ authUser: response.data });
       set({ avatar: res.data.data.avatar });
+      set({ userTags: res.data.data.tags });
       toast.success(response.data.message);
     } catch (error) {
       console.log("Error logging in", error);
@@ -87,6 +89,21 @@ export const useAuthStore = create((set) => ({
     } catch (error) {
       console.log("Error updating password", error);
       toast.error("Error updating password");
+    }
+  },
+
+  updateTags: async (data) => {
+    try {
+      const res = await axiosInstance.post("/profile/update-tags", {
+        newTags: data,
+      });
+      if (res.data.statusCode == 200) {
+        toast.success("tags updated");
+        set({ userTags: res.data.data.tags });
+      }
+    } catch (error) {
+      console.log("Error updating tags", error);
+      toast.error("Error updating tags");
     }
   },
 }));
