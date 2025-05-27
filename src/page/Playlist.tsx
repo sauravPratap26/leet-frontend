@@ -8,6 +8,7 @@ import SearchComponent from "../component/ProblemComponents/SearchComponent";
 import AutoSizer from "react-virtualized-auto-sizer";
 import ProblemTile from "../component/ProblemComponents/ProblemTileComponent";
 import useSearchHook from "../hooks/useSearchHook";
+import PlaylistAnalytics from "../component/PlaylistAnalytics";
 
 const Playlist = () => {
   const { playlistId } = useParams();
@@ -22,6 +23,9 @@ const Playlist = () => {
     (state) => state.playlistQuestions
   );
 
+  const total = originalQuestions.length;
+  const solved = originalQuestions.filter((q) => q.solvedBy.length > 0).length;
+  console.log({ total, solved });
   const [searchText, setSearchText] = useState("");
   const [tagText, setTagText] = useState("");
   const [difficulty, setDifficulty] = useState("All");
@@ -66,35 +70,39 @@ const Playlist = () => {
           )}
         </div>
 
-        <div className="flex-1 overflow-auto">
-          {filteredQuestions.length === 0 && !isPlaylistLoading ? (
-            <div className="flex items-center justify-center h-full">
-              <p className="text-base-content/50">No problems found</p>
-            </div>
-          ) : (
-            <AutoSizer>
-              {({ height, width }) => (
-                <List
-                  height={height}
-                  itemCount={filteredQuestions.length}
-                  itemSize={180}
-                  width={width}
-                  // onScroll={onScroll}
-                >
-                  {({ index, style }) => {
-                    return (
-                      <ProblemTile
-                        problem={filteredQuestions[index]}
-                        style={style}
-                        type={"playlistTile"}
-                      />
-                    );
-                  }}
-                </List>
-              )}
-            </AutoSizer>
-          )}
-        </div>
+        {activeTab != "analytics" ? (
+          <div className="flex-1 overflow-auto">
+            {filteredQuestions.length === 0 && !isPlaylistLoading ? (
+              <div className="flex items-center justify-center h-full">
+                <p className="text-base-content/50">No problems found</p>
+              </div>
+            ) : (
+              <AutoSizer>
+                {({ height, width }) => (
+                  <List
+                    height={height}
+                    itemCount={filteredQuestions.length}
+                    itemSize={180}
+                    width={width}
+                    // onScroll={onScroll}
+                  >
+                    {({ index, style }) => {
+                      return (
+                        <ProblemTile
+                          problem={filteredQuestions[index]}
+                          style={style}
+                          type={"playlistTile"}
+                        />
+                      );
+                    }}
+                  </List>
+                )}
+              </AutoSizer>
+            )}
+          </div>
+        ) : (
+          <PlaylistAnalytics total={total} solved={solved} />
+        )}
       </div>
     </div>
   );
