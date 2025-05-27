@@ -137,7 +137,14 @@ const TagsCharts = () => {
     const difficultyData = Object.entries(difficultInfo).map(
       ([name, value]) => ({ name, value })
     );
-    console.log(difficultyData);
+    console.log("*", difficultyData);
+    if (
+      difficultyData[0].value == 0 &&
+      difficultyData[1].value == 0 &&
+      difficultyData[2].value == 0
+    ) {
+      return <>This Tag has no Question created against it</>;
+    }
     const text = `Problem Difficulty for ${selectedTags[0]}`;
     return (
       <>
