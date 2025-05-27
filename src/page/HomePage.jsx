@@ -133,7 +133,7 @@ const HomePage = () => {
 
       <div className="flex gap-4 mt-8 z-10 items-center">
         <Link to="/all-problems" className="btn btn-primary text-lg">
-          Explore Problems
+          Explore Tags & Problems
         </Link>
 
         <div className="tooltip" data-tip="Coming in v2">
