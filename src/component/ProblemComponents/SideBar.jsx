@@ -10,6 +10,7 @@ import {
   ChartBar,
   PersonStanding,
   Settings,
+  TagsIcon,
 } from "lucide-react";
 import { usePlaylistStore } from "../../store/usePlaylistStore";
 const SideBar = ({ setActiveTab, activeTab, type }) => {
@@ -35,31 +36,36 @@ const SideBar = ({ setActiveTab, activeTab, type }) => {
       icon: <ListMusic size={18} className="mr-2" />,
       key: "playlist",
     },
+    {
+      label: "Tags",
+      icon: <TagsIcon size={18} className="mr-2" />,
+      key: "tags",
+    },
   ];
   if (type == "playlistTitle") {
-    sideOptions=[
+    sideOptions = [
       {
-      label: "Problems",
-      icon: <BookImage size={18} className="mr-2" />,
-      key: "problems",
-    },
-    {
-      label: "Analytics",
-      icon: <ChartBar size={18} className="mr-2" />,
-      key: "analytics",
-    },
-    // {
-    //   label: "Settings",
-    //   icon: <Settings size={18} className="mr-2" />,
-    //   key: "settings",
-    // },
-    ]
+        label: "Problems",
+        icon: <BookImage size={18} className="mr-2" />,
+        key: "problems",
+      },
+      {
+        label: "Analytics",
+        icon: <ChartBar size={18} className="mr-2" />,
+        key: "analytics",
+      },
+      // {
+      //   label: "Settings",
+      //   icon: <Settings size={18} className="mr-2" />,
+      //   key: "settings",
+      // },
+    ];
   }
   return (
     <div className="w-64 bg-base-200 p-4 flex flex-col border-r border-base-300">
       <h2 className="text-xl font-bold mb-6 text-base-content flex items-center gap-2">
         <ChevronDown size={20} />
-        {type == "playlistTitle" ? playlist.name : "Problem Sets"}
+        {type == "playlistTitle" ? playlist.name : "Tags & Problems"}
       </h2>
       <nav className="space-y-2">
         {sideOptions.map((item) => (
@@ -67,7 +73,6 @@ const SideBar = ({ setActiveTab, activeTab, type }) => {
             key={item.key}
             className="relative group rounded-lg overflow-hidden"
           >
-            {/* Hover gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
             <button

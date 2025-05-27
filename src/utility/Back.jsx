@@ -6,7 +6,6 @@ const BackWrapper = ({ children }) => {
 
   return (
     <div className="h-screen flex flex-col w-full space-y-4 overflow-hidden">
-      {/* Back Button */}
       <div className="sticky top-0 z-10 bg-base-100 border-b border-base-200 py-3 px-2 md:px-4 flex items-center shadow-sm">
         <button
           onClick={() => navigate(-1)}
@@ -17,7 +16,6 @@ const BackWrapper = ({ children }) => {
         </button>
       </div>
 
-      {/* Main Content Scrollable Without Scrollbar */}
       <div
         className="flex-1 overflow-auto px-2 md:px-4"
         style={{
