@@ -5,7 +5,8 @@ import {
   ListMusic,
   BookImage,
   ChartBar,
-  PersonStanding,
+  Settings,
+  TagsIcon,
 } from "lucide-react";
 const HeadingComponent = ({ activeTab }) => {
   return (
@@ -16,14 +17,16 @@ const HeadingComponent = ({ activeTab }) => {
       {activeTab === "playlist" && <ListMusic size={24} />}
       {activeTab === "problems" && <BookImage size={24} />}
       {activeTab === "analytics" && <ChartBar size={24} />}
-      {activeTab === "about" && <PersonStanding size={24} />}
+      {activeTab === "settings" && <Settings size={24} />}
+      {activeTab === "tags" && <TagsIcon size={24} />}
       {activeTab === "global" && "All Problems"}
       {activeTab === "solved" && "Solved Problems"}
       {activeTab === "created" && "Created Problems"}
       {activeTab === "playlist" && "Playlist Problems"}
       {activeTab === "problems" && "Problems"}
       {activeTab === "analytics" && "Analytics"}
-      {activeTab === "about" && "About"}
+      {activeTab === "settings" && "Settings"}
+      {activeTab === "tags" && "Tags"}
     </h1>
   );
 };

@@ -8,8 +8,9 @@ import { useProblemStore } from "../../store/useProblemStore";
 import { useAuthStore } from "../../store/useAuthStore";
 import ProblemTile from "./ProblemTileComponent";
 import useSearchHook from "../../hooks/useSearchHook";
+import TagsCharts from "../TagsCharts";
+import TagDropdown from "./TagsSearchComponent";
 
-// Problem tile component with DaisyUI classes
 
 const AllProblemsComponent = () => {
   const [activeTab, setActiveTab] = useState("global");
@@ -71,7 +72,7 @@ const AllProblemsComponent = () => {
   const all = selectQuestions();
   const filteredProblems = useMemo(() => {
     return questionSearch(all, searchText, tagText, difficulty, sortOrder);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [all, searchText, tagText, difficulty, sortOrder]);
 
   return (
@@ -84,43 +85,51 @@ const AllProblemsComponent = () => {
       <div className="flex-1 flex flex-col overflow-hidden bg-base-100">
         <div className="p-4 border-b border-base-300 bg-base-100">
           <HeadingComponent activeTab={activeTab} />
-          <SearchComponent
-            searchText={searchText}
-            setSearchText={setSearchText}
-            tagText={tagText}
-            setTagText={setTagText}
-            difficulty={difficulty}
-            setDifficulty={setDifficulty}
-            sortOrder={sortOrder}
-            setSortOrder={setSortOrder}
-          />
-        </div>
-
-        <div className="flex-1 overflow-auto">
-          {filteredProblems.length === 0 && !isProblemsLoading ? (
-            <div className="flex items-center justify-center h-full">
-              <p className="text-base-content/50">No problems found</p>
-            </div>
+          {activeTab !== "tags" ? (
+            <SearchComponent
+              searchText={searchText}
+              setSearchText={setSearchText}
+              tagText={tagText}
+              setTagText={setTagText}
+              difficulty={difficulty}
+              setDifficulty={setDifficulty}
+              sortOrder={sortOrder}
+              setSortOrder={setSortOrder}
+            />
           ) : (
-            <AutoSizer>
-              {({ height, width }) => (
-                <List
-                  height={height}
-                  itemCount={filteredProblems.length}
-                  itemSize={180}
-                  width={width}
-                >
-                  {({ index, style }) => (
-                    <ProblemTile
-                      problem={filteredProblems[index]}
-                      style={style}
-                    />
-                  )}
-                </List>
-              )}
-            </AutoSizer>
+            <TagDropdown />
           )}
         </div>
+
+        {activeTab && activeTab !== "tags" ? (
+          <div className="flex-1 overflow-auto">
+            {filteredProblems.length === 0 && !isProblemsLoading ? (
+              <div className="flex items-center justify-center h-full">
+                <p className="text-base-content/50">No problems found</p>
+              </div>
+            ) : (
+              <AutoSizer>
+                {({ height, width }) => (
+                  <List
+                    height={height}
+                    itemCount={filteredProblems.length}
+                    itemSize={180}
+                    width={width}
+                  >
+                    {({ index, style }) => (
+                      <ProblemTile
+                        problem={filteredProblems[index]}
+                        style={style}
+                      />
+                    )}
+                  </List>
+                )}
+              </AutoSizer>
+            )}
+          </div>
+        ) : (
+          <TagsCharts />
+        )}
       </div>
     </div>
   );
