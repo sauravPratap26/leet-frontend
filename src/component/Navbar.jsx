@@ -1,4 +1,3 @@
-import React from "react";
 import { User, Code, LogOut } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
 import { Link } from "react-router-dom";
@@ -30,10 +29,7 @@ const Navbar = () => {
             >
               <div className="w-10 rounded-full ">
                 <img
-                  src={
-                    authUser?.image ||
-                    "https://avatar.iran.liara.run/public/boy"
-                  }
+                  src={authUser?.image || `/leetImages/${authUser?.avatar}`}
                   alt="User Avatar"
                   className="object-cover"
                 />
