@@ -17,7 +17,7 @@ const UserRoute = () => {
     return <Navigate to="/" />;
   }
   return (
-    <BackWrapper to="/" label="Back to Home">
+    <BackWrapper>
       <Outlet />
     </BackWrapper>
   );

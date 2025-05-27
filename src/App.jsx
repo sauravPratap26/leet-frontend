@@ -13,6 +13,7 @@ import UserRoute from "./component/UserRoute";
 import AllProblemsComponent from "./component/ProblemComponents/AllProblemsComponent";
 import ProblemPage from "./page/ProblemPage";
 import Playlist from "./page/Playlist";
+import ProfilePage from "./page/ProfilePage";
 
 const App = () => {
   const { isCheckingAuth, authUser, checkAuth } = useAuthStore();
@@ -73,6 +74,10 @@ const App = () => {
           <Route
             path="/problem/:id"
             element={authUser ? <ProblemPage /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/profile"
+            element={authUser ? <ProfilePage/> : <Navigate to="/login" />}
           />
         </Route>
       </Routes>
