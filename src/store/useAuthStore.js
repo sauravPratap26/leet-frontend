@@ -7,12 +7,14 @@ export const useAuthStore = create((set) => ({
   isSigninUp: false,
   isLoggingIn: false,
   isCheckingAuth: false,
+  avatar: null,
 
   checkAuth: async () => {
     set({ isCheckingAuth: true });
     try {
       const res = await axiosInstance.get("/auth/get");
       set({ authUser: res.data.data.user });
+      set({ avatar: res.data.data.user.avatar });
     } catch (error) {
       console.log("❌ Error checking auth:", error);
       set({ authUser: null });
@@ -40,8 +42,9 @@ export const useAuthStore = create((set) => ({
     set({ isLoggingIn: true });
     try {
       const res = await axiosInstance.post("/auth/login", data);
-      const response =res.data
+      const response = res.data;
       set({ authUser: response.data });
+      set({ avatar: res.data.data.avatar });
       toast.success(response.data.message);
     } catch (error) {
       console.log("Error logging in", error);
@@ -59,6 +62,31 @@ export const useAuthStore = create((set) => ({
     } catch (error) {
       console.log("Error logging out", error);
       toast.error("Error logging out");
+    }
+  },
+
+  updateAvatar: async (avatar) => {
+    try {
+      const res = await axiosInstance.post("/profile/change-avatar", {
+        avatar,
+      });
+      set({ avatar: res.data.data.avatar });
+      toast.success("Avatar updated");
+    } catch (error) {
+      console.log("Error changing avatar", error);
+      toast.error("Error changing avatar");
+    }
+  },
+
+  updatePassword: async (data) => {
+    try {
+      const res = await axiosInstance.post("/profile/change-password", data);
+      if (res.data.statusCode == 200) {
+        toast.success("Password updated");
+      }
+    } catch (error) {
+      console.log("Error updating password", error);
+      toast.error("Error updating password");
     }
   },
 }));
