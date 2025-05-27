@@ -41,7 +41,7 @@ const PlaylistAnalytics = ({ total, solved }) => {
           </h2>
           <div
             className="tooltip tooltip-left"
-            data-tip="This chart shows how many problems you’ve solved vs total"
+            data-tip="This chart shows how many problems you have solved and how many remain unsolved"
           >
             <span className="cursor-pointer text-base-content">ℹ️</span>
           </div>
