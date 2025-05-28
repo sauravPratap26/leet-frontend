@@ -3,19 +3,17 @@ import { useAuthStore } from "../store/useAuthStore";
 import { Link } from "react-router-dom";
 import LogoutButton from "./LogoutButton";
 import Cookies from "js-cookie";
-import Logo from "../../public/paperlessCodeBig";
+import Logo from "../../public/assets/paperlessCodeBig";
 
 const Navbar = () => {
-  const { authUser } = useAuthStore();
+  const { authUser, avatar } = useAuthStore();
   return (
     <nav className="sticky top-0 z-50 w-full py-5">
       <div className="flex w-full justify-between mx-auto max-w-4xl bg-black/15 shadow-lg shadow-neutral-600/5 backdrop-blur-lg border border-gray-200/10 p-4 rounded-2xl">
         {/* Logo Section */}
         <Link to="/" className="flex items-center gap-3 cursor-pointer">
           <Logo width={150} height={60} />
-          <span className="text-lg md:text-2xl font-bold tracking-tight text-white hidden md:block">
-            
-          </span>
+          <span className="text-lg md:text-2xl font-bold tracking-tight text-white hidden md:block"></span>
         </Link>
 
         {/* User Profile and Dropdown */}
@@ -27,7 +25,7 @@ const Navbar = () => {
             >
               <div className="w-10 rounded-full ">
                 <img
-                  src={authUser?.image || `/leetImages/${authUser?.avatar}`}
+                  src={authUser?.image || `/assets/leetImages/${avatar}`}
                   alt="User Avatar"
                   className="object-cover"
                 />

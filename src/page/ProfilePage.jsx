@@ -57,7 +57,7 @@ export default function ProfilePage() {
     getSolvedProblemByUser,
     getCreatedProblemsByUser,
   } = useProblemStore();
-  console.log(userTags)
+  console.log(userTags);
   useEffect(() => {
     getSolvedProblemByUser();
     getCreatedProblemsByUser();
@@ -156,7 +156,7 @@ export default function ProfilePage() {
             <div className="avatar mb-4">
               <div className="w-28 h-28 rounded-full ring ring-primary ring-offset-base-200 ring-offset-2 hover:ring-secondary transition-all duration-300">
                 <img
-                  src={`/leetImages/${avatar}`}
+                  src={`/assets/leetImages/${avatar}`}
                   alt="Profile"
                   className="rounded-full"
                 />
@@ -292,7 +292,7 @@ export default function ProfilePage() {
                 >
                   <div className="w-16 h-16 rounded-full hover:brightness-110">
                     <img
-                      src={`/leetImages/${avatar}`}
+                      src={`/assets/leetImages/${avatar}`}
                       alt={`Avatar ${index + 1}`}
                       className="rounded-full"
                     />
