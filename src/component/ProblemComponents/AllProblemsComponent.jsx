@@ -10,7 +10,8 @@ import ProblemTile from "./ProblemTileComponent";
 import useSearchHook from "../../hooks/useSearchHook";
 import TagsCharts from "../TagsCharts";
 import TagDropdown from "./TagsSearchComponent";
-
+import AddProblem from "../../page/AddProblem";
+import CreateProblemForm from "../CreateProblemForm";
 
 const AllProblemsComponent = () => {
   const [activeTab, setActiveTab] = useState("global");
@@ -64,6 +65,8 @@ const AllProblemsComponent = () => {
         return createdProblems;
       case "playlist":
         return playListProblems;
+      case "update":
+        return createdProblems;
       default:
         return [];
     }
@@ -84,21 +87,26 @@ const AllProblemsComponent = () => {
 
       <div className="flex-1 flex flex-col overflow-hidden bg-base-100">
         <div className="p-4 border-b border-base-300 bg-base-100">
-          <HeadingComponent activeTab={activeTab} />
+          <HeadingComponent activeTab={activeTab} authUser={authUser} />
+
           {activeTab !== "tags" ? (
-            <SearchComponent
-              searchText={searchText}
-              setSearchText={setSearchText}
-              tagText={tagText}
-              setTagText={setTagText}
-              difficulty={difficulty}
-              setDifficulty={setDifficulty}
-              sortOrder={sortOrder}
-              setSortOrder={setSortOrder}
-            />
+            activeTab !== "add" && (
+              <SearchComponent
+                searchText={searchText}
+                setSearchText={setSearchText}
+                tagText={tagText}
+                setTagText={setTagText}
+                difficulty={difficulty}
+                setDifficulty={setDifficulty}
+                sortOrder={sortOrder}
+                setSortOrder={setSortOrder}
+              />
+            )
           ) : (
             <TagDropdown />
           )}
+
+          {activeTab !== "tags" && activeTab === "add" && <></>}
         </div>
 
         {activeTab && activeTab !== "tags" ? (
@@ -129,6 +137,11 @@ const AllProblemsComponent = () => {
           </div>
         ) : (
           <TagsCharts />
+        )}
+        {activeTab && activeTab !== "tags" && activeTab == "add" && (
+          <div className="overflow-y-auto">
+            <CreateProblemForm />
+          </div>
         )}
       </div>
     </div>

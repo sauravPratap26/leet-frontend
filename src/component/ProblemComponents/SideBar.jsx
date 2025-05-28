@@ -11,6 +11,8 @@ import {
   PersonStanding,
   Settings,
   TagsIcon,
+  PlusSquareIcon,
+  WorkflowIcon,
 } from "lucide-react";
 import { usePlaylistStore } from "../../store/usePlaylistStore";
 const SideBar = ({ setActiveTab, activeTab, type }) => {
@@ -36,6 +38,16 @@ const SideBar = ({ setActiveTab, activeTab, type }) => {
       icon: <ListMusic size={18} className="mr-2" />,
       key: "playlist",
     },
+    {
+      label: "Add Problem",
+      icon: <PlusSquareIcon size={18} className="mr-2" />,
+      key: "add",
+    },
+    // {
+    //   label: "Update Problem",
+    //   icon: <WorkflowIcon size={18} className="mr-2" />,
+    //   key: "update",
+    // },
     {
       label: "Tags",
       icon: <TagsIcon size={18} className="mr-2" />,

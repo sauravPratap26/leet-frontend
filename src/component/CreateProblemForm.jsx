@@ -126,11 +126,11 @@ const CreateProblemForm = () => {
     <div className=" py-8 px-4 w-full min-w-max">
       <div className="card bg-base-100 shadow-xl">
         <div className="card-body p-6 md:p-8 bg">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 md:mb-8 pb-4 border-b">
-            <h2 className="card-title text-2xl md:text-3xl flex items-center gap-3">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 md:mb-8 pb-4 border-b ">
+            {/* <h2 className="card-title text-2xl md:text-3xl flex items-center gap-3">
               <FileText className="w-6 h-6 md:w-8 md:h-8 text-primary" />
               Create Problem
-            </h2>
+            </h2> */}
             <CreateProblemActions loadSampleData={loadSampleData} />
           </div>
 
