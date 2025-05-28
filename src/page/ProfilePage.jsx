@@ -78,17 +78,8 @@ export default function ProfilePage() {
     if (password.length < 6) {
       errors.push("Password must be at least 6 characters");
     }
-
-    if (!/[A-Z]/.test(password)) {
-      errors.push("Must contain at least one uppercase letter");
-    }
-
-    if (!/[0-9]/.test(password)) {
-      errors.push("Must contain at least one number");
-    }
-
-    if (!/[^A-Za-z0-9]/.test(password)) {
-      errors.push("Must contain at least one special character");
+    if(password.length > 15) {
+      errors.push("Password must be atmost 15 characters")
     }
 
     return errors;

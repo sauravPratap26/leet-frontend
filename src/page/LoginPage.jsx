@@ -13,9 +13,7 @@ const LonginSchema = z.object({
   password: z
     .string()
     .min(6, "Password must be at least 6 characters")
-    .regex(/[A-Z]/, "Must contain at least one uppercase letter")
-    .regex(/[0-9]/, "Must contain at least one number")
-    .regex(/[^A-Za-z0-9]/, "Must contain at least one special character"),
+    .max(15,"Password must be atmost 15 characters"),
 });
 
 const LoginPage = () => {
