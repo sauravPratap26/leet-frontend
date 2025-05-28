@@ -75,6 +75,7 @@ const ProblemPage = () => {
   };
 
   const handleRunCode = (e) => {
+    console.log("****************************")
     e.preventDefault();
     try {
       const language_id = getLanguageId(selectedLanguage);
@@ -337,10 +338,13 @@ const ProblemPage = () => {
                     Run Code
                   </button> */}
                   <button
-                    className="btn btn-success gap-2"
-                    Click={handleRunCode}
+                    className={`btn btn-primary gap-2 ${
+                      isExecuting ? "loading" : ""
+                    }`}
+                    onClick={handleRunCode}
                     disabled={isExecuting}
                   >
+                    {!isExecuting && <Play className="w-4 h-4" />}
                     Submit Solution
                   </button>
                 </div>

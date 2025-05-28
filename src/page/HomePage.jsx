@@ -122,13 +122,13 @@ const HomePage = () => {
       {/* Background blur */}
       <div className="absolute top-16 left-0 w-1/3 h-1/3 bg-primary opacity-30 blur-3xl rounded-md bottom-9" />
       <h1 className="text-4xl font-extrabold z-10 text-center">
-        Welcome to <span className="text-primary">LeetLab</span>
+        Welcome to <span className="text-primary">Paperless Code</span>
       </h1>
 
       <p className="mt-4 text-center text-lg font-semibold text-gray-500 dark:text-gray-400 z-10 max-w-2xl">
-        A Platform Inspired by Leetcode which helps you to prepare for coding
-        interviews and improve your coding skills by solving real coding
-        problems.
+        Designed for colleges, coding clubs, and classrooms — our platform
+        transforms traditional pen-and-paper problem solving into a dynamic,
+        trackable, and collaborative coding experience.
       </p>
 
       <div className="flex gap-4 mt-8 z-10 items-center">
