@@ -54,7 +54,7 @@ const Playlist = () => {
 
       <div className="flex-1 flex flex-col overflow-hidden bg-base-100">
         <div className="p-4 border-b border-base-300 bg-base-100">
-          <HeadingComponent activeTab={activeTab} />
+          <HeadingComponent activeTab={activeTab} authUser={null} />
 
           {!["analytics", "settings"].includes(activeTab) && (
             <SearchComponent
