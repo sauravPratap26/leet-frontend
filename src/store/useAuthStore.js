@@ -106,4 +106,32 @@ export const useAuthStore = create((set) => ({
       toast.error("Error updating tags");
     }
   },
+  forgotPassword: async (data) => {
+    try {
+      const res = await axiosInstance.post("/auth/forget-password", {
+        email: data,
+      });
+      if (res.data.statusCode == 200) {
+        toast.success("Reset Mail Sent");
+      }
+    } catch (error) {
+      console.log("Error resetting password", error);
+      toast.error("Error resetting password");
+    }
+  },
+
+  resetPassword: async (token, password, navigate) => {
+    try {
+      const res = await axiosInstance.post(`/auth/resetPassword/${token}`, {
+        password,
+      });
+      if (res.data.statusCode == 200) {
+        navigate("/login");
+        toast.success("Password reset successfully");
+      }
+    } catch (error) {
+      console.log("Error updating password", error);
+      toast.error("Error updating password");
+    }
+  },
 }));

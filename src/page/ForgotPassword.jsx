@@ -2,45 +2,43 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "react-router-dom";
-import { Code, Eye, EyeOff, Loader2, Lock, Mail, User } from "lucide-react";
+import { Loader2, Mail, Code } from "lucide-react";
 import { z } from "zod";
 import CodeBackground from "../component/AuthImagePattern";
 import "../global.css";
 import { useAuthStore } from "../store/useAuthStore";
 
-const LonginSchema = z.object({
+const ForgetPasswordSchema = z.object({
   email: z.string().email("Enter a valid email"),
-  password: z
-    .string()
-    .min(6, "Password must be at least 6 characters")
-    .max(15, "Password must be atmost 15 characters"),
 });
 
-const LoginPage = () => {
-  const [showPassword, setShowPassword] = useState(false);
-
-  const { isLoggingIn, login } = useAuthStore();
+const ForgetPasswordPage = () => {
+  const [isSending, setIsSending] = useState(false);
+  const { forgotPassword } = useAuthStore();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(LonginSchema),
+    resolver: zodResolver(ForgetPasswordSchema),
     mode: "onChange",
   });
 
   const onSubmit = async (data) => {
     try {
-      console.log("signup data", data);
-      await login(data);
+      setIsSending(true);
+      console.log("Forget password data", data);
+      await forgotPassword(data.email);
     } catch (error) {
-      console.error("SignUp failed:", error);
+      console.error("Forget Password failed:", error);
+    } finally {
+      setIsSending(false);
     }
   };
 
   return (
     <div className="min-h-screen w-full bg-slate-900 flex flex-col lg:flex-row">
-      {/* Left Side - Form (Mobile: top, Desktop: left) */}
+      {/* Left Side - Form */}
       <div className="flex-1 flex items-center justify-center p-4 sm:p-8 lg:p-12">
         <div className="w-full max-w-md mx-auto">
           {/* Logo & Header */}
@@ -50,9 +48,13 @@ const LoginPage = () => {
                 <Code className="w-8 h-8 text-primary" />
               </div>
               <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-cyan-400">
-                Login to your Account
+                Forgot Your Password?
               </h1>
-              <p className="text-slate-400">Join our developer community</p>
+              <p className="text-slate-400">
+                {isSending
+                  ? "You Shall receive the reset password confirmation mail"
+                  : "Enter your email to reset your password"}
+              </p>
             </div>
           </div>
 
@@ -88,78 +90,32 @@ const LoginPage = () => {
               )}
             </div>
 
-            {/* Password */}
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-slate-300">
-                Password
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-slate-500" />
-                </div>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  {...register("password")}
-                  className={`block w-full pl-10 pr-10 py-3 rounded-lg bg-slate-800 border ${
-                    errors.password
-                      ? "border-red-500/50 focus:ring-red-500 focus:border-red-500"
-                      : "border-slate-700 focus:ring-primary focus:border-primary"
-                  } shadow-sm placeholder-slate-500 text-slate-200 transition duration-200`}
-                  placeholder="••••••••"
-                />
-                <button
-                  type="button"
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center hover:text-slate-300 transition-colors"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-5 w-5 text-slate-500 hover:text-slate-300" />
-                  ) : (
-                    <Eye className="h-5 w-5 text-slate-500 hover:text-slate-300" />
-                  )}
-                </button>
-              </div>
-              {errors.password && (
-                <p className="text-red-400 text-sm mt-1">
-                  {errors.password.message}
-                </p>
-              )}
-            </div>
-
             {/* Submit Button */}
             <button
               type="submit"
               className="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-white bg-gradient-to-r from-primary to-cyan-500 hover:from-primary/90 hover:to-cyan-500/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary/50 transition-all duration-200"
-              disabled={isLoggingIn}
+              disabled={isSending}
             >
-              {isLoggingIn ? (
+              {isSending ? (
                 <>
                   <Loader2 className="h-5 w-5 animate-spin mr-2" />
-                  Logging in...
+                  Sending...
                 </>
               ) : (
-                "Login"
+                "Okay"
               )}
             </button>
           </form>
 
           {/* Footer */}
-          <div className="text-center mt-6 flex justify-between">
+          <div className="text-center mt-6">
             <p className="text-slate-400">
+              Remembered your password?{" "}
               <Link
-                to="/signup"
+                to="/login"
                 className="font-medium text-primary hover:text-primary/80 transition-colors"
               >
-                Create Account
-              </Link>
-            </p>
-
-            <p className="text-slate-400">
-              <Link
-                to="/forgot-password" // probably you want a different route here
-                className="font-medium text-primary hover:text-primary/80 transition-colors"
-              >
-                Forgot Password
+                Sign in
               </Link>
             </p>
           </div>
@@ -167,13 +123,13 @@ const LoginPage = () => {
       </div>
 
       <CodeBackground
-        title={"Welcome Back"}
+        title={"Join Our Developer Community"}
         subtitle={
-          "Sign in to continue your journey with us. Don't have an account? Create one now."
+          "Sign up to access exclusive resources, connect with other developers, and build amazing projects."
         }
       />
     </div>
   );
 };
 
-export default LoginPage;
+export default ForgetPasswordPage;

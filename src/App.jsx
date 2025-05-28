@@ -14,6 +14,8 @@ import AllProblemsComponent from "./component/ProblemComponents/AllProblemsCompo
 import ProblemPage from "./page/ProblemPage";
 import Playlist from "./page/Playlist";
 import ProfilePage from "./page/ProfilePage";
+import ForgetPasswordPage from "./page/ForgotPassword";
+import ResetPasswordPage from "./page/resetPassword";
 
 const App = () => {
   const { isCheckingAuth, authUser, checkAuth } = useAuthStore();
@@ -51,6 +53,12 @@ const App = () => {
           path="/signup"
           element={!authUser ? <SignUpPage /> : <Navigate to={"/"} />}
         />
+        <Route path="/forgot-password" element={<ForgetPasswordPage />} />
+        
+        <Route
+          path="/auth/resetPassword/:token"
+          element={<ResetPasswordPage />}
+        />
 
         <Route element={<AdminRoute />}>
           <Route
@@ -77,7 +85,7 @@ const App = () => {
           />
           <Route
             path="/profile"
-            element={authUser ? <ProfilePage/> : <Navigate to="/login" />}
+            element={authUser ? <ProfilePage /> : <Navigate to="/login" />}
           />
         </Route>
       </Routes>
