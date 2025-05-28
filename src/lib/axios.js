@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const baseURL =
-  import.meta.env.ENV === "PROD"
+  import.meta.env.VITE_ENV !== "PROD"
     ? import.meta.env.VITE_BACKEND
     : import.meta.env.VITE_BACKEND_PROD;
 
