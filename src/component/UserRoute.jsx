@@ -14,7 +14,7 @@ const UserRoute = () => {
     );
   }
   if (!authUser) {
-    return <Navigate to="/" />;
+    return <Navigate to="/login" />;
   }
   return (
     <BackWrapper>
