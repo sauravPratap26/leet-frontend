@@ -80,6 +80,11 @@ const CreateProblemEditor = ({ control, errors }) => {
                               roundedSelection: false,
                               scrollBeyondLastLine: false,
                               automaticLayout: true,
+                              tabSize: 4,
+                              insertSpaces: language.toLowerCase() !== "python",
+                              detectIndentation: false,
+                              formatOnPaste: false,
+                              formatOnType: false,
                             }}
                           />
                         )}

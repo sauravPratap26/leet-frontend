@@ -14,7 +14,10 @@ import {
 import { usePlaylistStore } from "../../store/usePlaylistStore";
 import { useProblemStore } from "../../store/useProblemStore";
 
-const ProblemTile = ({ problem, style, type }) => {
+const ProblemTile = ({ problem, style, type, activeTab }) => {
+  let playlistHavingProblem = problem?.problemsPlaylists?.map(
+    (playlist) => playlist.playListId
+  );
   let isSolved = false;
   if (type == "playlistTile") {
     isSolved = problem.solvedBy.length > 0;
@@ -22,12 +25,17 @@ const ProblemTile = ({ problem, style, type }) => {
   const navigate = useNavigate();
   const { playlists, addProblemToPlaylist, deletePlaylistQuestions } =
     usePlaylistStore();
-  const { getPlaylistProblemsByUser, setJustClosedPopup } = useProblemStore();
+  const {
+    getPlaylistProblemsByUser,
+    setJustClosedPopup,
+    problemAddedInPlaylist,
+  } = useProblemStore();
   const [showPopup, setShowPopup] = useState(false);
   const popupRef = useRef(null);
 
   const handleAddClick = async (playListId) => {
     await addProblemToPlaylist({ playListId, problemIds: [problem.id] });
+    problemAddedInPlaylist(problem.id, playListId, "default", activeTab);
     getPlaylistProblemsByUser();
     setShowPopup(false);
   };
@@ -179,17 +187,24 @@ const ProblemTile = ({ problem, style, type }) => {
               <div className="text-xs text-base-content/60 py-2 text-center">
                 No playlists available
               </div>
+            ) : playlists.length == playlistHavingProblem.length ? (
+              <div className="text-xs text-base-content/60 py-2 text-center">
+                Already available in all playlists
+              </div>
             ) : (
               <div className="space-y-1">
-                {playlists.map((playlist) => (
-                  <div
-                    key={playlist.id}
-                    onClick={() => handleAddClick(playlist.id)}
-                    className="cursor-pointer text-sm text-base-content hover:text-primary hover:bg-primary/10 px-3 py-2 rounded-lg transition-all duration-150 font-medium border border-transparent hover:border-primary/20"
-                  >
-                    {playlist.name}
-                  </div>
-                ))}
+                {playlists.map(
+                  (playlist) =>
+                    !playlistHavingProblem.includes(playlist.id) && (
+                      <div
+                        key={playlist.id}
+                        onClick={() => handleAddClick(playlist.id)}
+                        className="cursor-pointer text-sm text-base-content hover:text-primary hover:bg-primary/10 px-3 py-2 rounded-lg transition-all duration-150 font-medium border border-transparent hover:border-primary/20"
+                      >
+                        {playlist.name}
+                      </div>
+                    )
+                )}
               </div>
             )}
           </div>
@@ -198,7 +213,7 @@ const ProblemTile = ({ problem, style, type }) => {
 
       <div
         className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none ${
-          isSolved && type === "playlistTile"
+          (isSolved && type === "playlistTile") || problem?.isSolved
             ? "bg-gradient-to-r from-success/6 via-transparent to-success/8"
             : "bg-gradient-to-r from-primary/8 via-transparent to-secondary/8"
         }`}

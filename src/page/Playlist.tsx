@@ -91,6 +91,7 @@ const Playlist = () => {
                         <ProblemTile
                           problem={filteredQuestions[index]}
                           style={style}
+                          activeTab={activeTab}
                           type={"playlistTile"}
                         />
                       );

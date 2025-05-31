@@ -42,8 +42,9 @@ const AllProblemsComponent = () => {
   useEffect(() => {
     if (activeTab === "global") {
       getAllProblems();
+      // getSolvedProblemByUser();
     } else if (activeTab === "solved") {
-      getSolvedProblemByUser();
+      //todo
     } else if (activeTab === "created") {
       if (authUser.role === "ADMIN") getCreatedProblemsByUser();
     }
@@ -136,6 +137,7 @@ const AllProblemsComponent = () => {
                       <ProblemTile
                         problem={filteredProblems[index]}
                         style={style}
+                        activeTab={activeTab}
                       />
                     )}
                   </List>

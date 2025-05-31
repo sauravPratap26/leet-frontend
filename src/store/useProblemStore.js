@@ -21,6 +21,10 @@ export const useProblemStore = create((set) => ({
       set({ isProblemsLoading: true });
 
       const res = await axiosInstance.get("/problem/get-all-problem");
+      const solvedProblemsFromRaw = res.data.data.filter(
+        (problem) => problem.isSolved
+      );
+      set({ solvedProblems: solvedProblemsFromRaw });
       set({ problems: res.data.data });
     } catch (error) {
       console.log("Error getting all problems", error);
@@ -83,6 +87,51 @@ export const useProblemStore = create((set) => ({
       toast.error("Error getting created problems");
     } finally {
       set({ isProblemsLoading: false });
+    }
+  },
+  problemAddedInPlaylist: async (
+    problemId,
+    playlistId,
+    playlistName,
+    activeTab
+  ) => {
+    try {
+      console.log(problemId, playlistId, playlistName);
+      let keyToSet = "";
+      if (activeTab == "created") {
+        keyToSet = "createdProblems";
+      } else if (activeTab == "solved") {
+        keyToSet = "solvedProblems";
+      } else {
+        keyToSet = "problems";
+      }
+      set((state) => ({
+        [keyToSet]: state.problems.map((problem) => {
+          if (problem.id === problemId) {
+            return {
+              ...problem,
+              problemsPlaylists: [
+                ...problem.problemsPlaylists,
+                {
+                  id: crypto.randomUUID(), // temporary ID
+                  playListId: playlistId,
+                  problemId,
+                  createdAt: new Date().toISOString(),
+                  updatedAt: new Date().toISOString(),
+                  playlist: {
+                    id: playlistId,
+                    name: playlistName,
+                  },
+                },
+              ],
+            };
+          }
+          return problem;
+        }),
+      }));
+    } catch (error) {
+      console.error("Error updating local problem with new playlist", error);
+      toast.error("Error adding problem to playlist");
     }
   },
 }));
