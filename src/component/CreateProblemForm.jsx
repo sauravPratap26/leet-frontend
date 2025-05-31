@@ -123,7 +123,7 @@ const CreateProblemForm = () => {
   };
 
   return (
-    <div className=" py-8 px-4 w-full min-w-max">
+    <div className=" py-8 px-4 w-full max-w-max min-w-[100%]">
       <div className="card bg-base-100 shadow-xl">
         <div className="card-body p-6 md:p-8 bg">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 md:mb-8 pb-4 border-b ">

@@ -49,31 +49,40 @@ export const useProblemStore = create((set) => ({
 
   getSolvedProblemByUser: async () => {
     try {
+      set({ isProblemsLoading: true });
       const res = await axiosInstance.get("/problem/get-solved-problems");
       console.log("solved are:", res);
       set({ solvedProblems: res.data.data });
     } catch (error) {
       console.log("Error getting solved problems", error);
       toast.error("Error getting solved problems");
+    } finally {
+      set({ isProblemsLoading: false });
     }
   },
   getPlaylistProblemsByUser: async () => {
     try {
+      set({ isProblemsLoading: true });
       const res = await axiosInstance.get("/problem/get-playlist-problems");
       set({ playListProblems: res.data.data });
     } catch (error) {
       console.log("Error getting playlist problems", error);
       toast.error("Error getting playist problems");
+    } finally {
+      set({ isProblemsLoading: false });
     }
   },
   getCreatedProblemsByUser: async () => {
     try {
+      set({ isProblemsLoading: true });
       const res = await axiosInstance.get("/problem/get-created-problems");
       console.log(res);
       set({ createdProblems: res.data.data });
     } catch (error) {
       console.log("Error getting created problems", error);
       toast.error("Error getting created problems");
+    } finally {
+      set({ isProblemsLoading: false });
     }
   },
 }));

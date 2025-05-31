@@ -15,8 +15,10 @@ import {
   WorkflowIcon,
 } from "lucide-react";
 import { usePlaylistStore } from "../../store/usePlaylistStore";
+import { useAuthStore } from "../../store/useAuthStore";
 const SideBar = ({ setActiveTab, activeTab, type }) => {
   const { playlist } = usePlaylistStore();
+  const { authUser } = useAuthStore();
   let sideOptions = [
     {
       label: "Global Problems",
@@ -54,6 +56,13 @@ const SideBar = ({ setActiveTab, activeTab, type }) => {
       key: "tags",
     },
   ];
+
+  if (authUser.role !== "ADMIN") {
+    sideOptions = sideOptions.filter(
+      (item) => item.key !== "add" && item.key !== "created"
+    );
+  }
+
   if (type == "playlistTitle") {
     sideOptions = [
       {

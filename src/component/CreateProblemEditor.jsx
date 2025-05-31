@@ -7,7 +7,7 @@ import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 const CreateProblemEditor = ({ control, errors }) => {
   return (
     <div className="mb-8">
-      <PanelGroup direction="horizontal" className="min-h-[500px]">
+      <PanelGroup direction="horizontal" className="min-h-[500px] max-w-[100%]">
         {["JAVASCRIPT", "PYTHON", "JAVA"].map((language, index) => (
           <React.Fragment key={language}>
             <Panel defaultSize={33} minSize={15}>

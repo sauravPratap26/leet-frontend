@@ -12,6 +12,7 @@ import TagsCharts from "../TagsCharts";
 import TagDropdown from "./TagsSearchComponent";
 import AddProblem from "../../page/AddProblem";
 import CreateProblemForm from "../CreateProblemForm";
+import { Loader } from "lucide-react";
 
 const AllProblemsComponent = () => {
   const [activeTab, setActiveTab] = useState("global");
@@ -78,6 +79,13 @@ const AllProblemsComponent = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [all, searchText, tagText, difficulty, sortOrder]);
 
+  if (isProblemsLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Loader className="size-10 animate-spin" />
+      </div>
+    );
+  }
   return (
     <div
       className="flex h-screen bg-base-100 scrollbar-hide"
@@ -139,7 +147,7 @@ const AllProblemsComponent = () => {
           <TagsCharts />
         )}
         {activeTab && activeTab !== "tags" && activeTab == "add" && (
-          <div className="overflow-y-auto">
+          <div className="overflow-y-auto max-w-[100%]">
             <CreateProblemForm />
           </div>
         )}

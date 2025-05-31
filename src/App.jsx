@@ -37,7 +37,9 @@ const App = () => {
     <div className="flex flex-col items-center justify-start">
       <Toaster position="top-right" reverseOrder={false} />
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path="/" element={<>sps</>} />
+
+        <Route path="/home" element={<Layout />}>
           <Route
             index
             element={authUser ? <HomePage /> : <Navigate to="/login" />}
@@ -46,25 +48,25 @@ const App = () => {
 
         <Route
           path="/login"
-          element={!authUser ? <LoginPage /> : <Navigate to={"/"} />}
+          element={!authUser ? <LoginPage /> : <Navigate to={"/home"} />}
         />
 
         <Route
           path="/signup"
-          element={!authUser ? <SignUpPage /> : <Navigate to={"/"} />}
+          element={!authUser ? <SignUpPage /> : <Navigate to={"/home"} />}
         />
         <Route path="/forgot-password" element={<ForgetPasswordPage />} />
-        
+
         <Route
           path="/auth/resetPassword/:token"
           element={<ResetPasswordPage />}
         />
 
         <Route element={<AdminRoute />}>
-          <Route
+          {/* <Route
             path="/add-problem"
             element={authUser ? <AddProblem /> : <Navigate to="/" />}
-          />
+          /> */}
           {/* <Route
           path ="/get-problems"
           element={authUds}
@@ -73,11 +75,11 @@ const App = () => {
         <Route element={<UserRoute />}>
           <Route
             path="/all-problems"
-            element={authUser ? <AllProblemsComponent /> : <Navigate to="/" />}
+            element={authUser ? <AllProblemsComponent /> : <Navigate to="/login" />}
           />
           <Route
             path="/playlist-page/:playlistId"
-            element={authUser ? <Playlist /> : <Navigate to="/" />}
+            element={authUser ? <Playlist /> : <Navigate to="/login" />}
           />
           <Route
             path="/problem/:id"

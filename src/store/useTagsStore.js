@@ -15,11 +15,19 @@ export const useTagsStore = create((set, get) => ({
   tagSolvedCount: {},
   difficultyStats: {},
   selectTag: (tag) => {
-    const { selectedTags } = get();
-    if (selectedTags.includes(tag)) {
-      set({ selectedTags: selectedTags.filter((t) => t !== tag) });
-    } else {
-      set({ selectedTags: [...selectedTags, tag] });
+    try {
+      set({ isTagsLoading: true });
+      const { selectedTags } = get();
+      if (selectedTags.includes(tag)) {
+        set({ selectedTags: selectedTags.filter((t) => t !== tag) });
+      } else {
+        set({ selectedTags: [...selectedTags, tag] });
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Error displaying the tag");
+    } finally {
+      set({ isTagsLoading: false });
     }
   },
   clearTags: () => set({ selectedTags: [] }),
@@ -32,7 +40,7 @@ export const useTagsStore = create((set, get) => ({
       const res = await axiosInstance.get("/tags/getTags");
       const tags = res.data.data;
       const totalTags = tags.length;
-      const selectedTags = tags.map((tag)=>tag.value)
+      const selectedTags = tags.map((tag) => tag.value);
       const bioTags = tags.reduce((acc, current) => {
         acc[current.value] = current.users.length;
         return acc;
@@ -78,7 +86,7 @@ export const useTagsStore = create((set, get) => ({
         tagSolvedCount,
         tagSubmissionsCount,
         difficultyStats,
-        selectedTags
+        selectedTags,
       });
     } catch (error) {
       console.log("Error getting all tags", error);

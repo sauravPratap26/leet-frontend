@@ -11,7 +11,7 @@ import {
   Legend,
 } from "recharts";
 import { useTagsStore } from "../store/useTagsStore";
-import { BarChart3, Target, TrendingUp } from "lucide-react";
+import { BarChart3, Loader, Target, TrendingUp } from "lucide-react";
 
 const generateColors = (count) =>
   Array.from(
@@ -26,8 +26,8 @@ const TagsCharts = () => {
     selectedTags,
     bioTags,
     difficultyStats,
+    isTagsLoading,
   } = useTagsStore();
-  console.log(selectedTags, tagProblemsCount);
   const problemsData = Object.entries(tagProblemsCount)
     .map(([name, value]) => ({ name, value }))
     .filter(({ name }) => selectedTags.includes(name));
@@ -44,6 +44,11 @@ const TagsCharts = () => {
 
   const pieColors = generateColors(submissionData.length);
   const userColor = generateColors(bioData.length);
+  if (isTagsLoading) {
+    <div className="flex items-center justify-center h-screen">
+      <Loader className="size-10 animate-spin" />
+    </div>;
+  }
   if (selectedTags.length == 0) {
     return (
       <div className="flex items-center justify-center min-h-screen p-6 bg-base-100">
