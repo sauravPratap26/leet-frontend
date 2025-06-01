@@ -23,6 +23,8 @@ import { useExecutionStore } from "../store/useExecutionStore";
 import { useSubmissionStore } from "../store/useSubmissionStore";
 import Submission from "../component/Submission";
 import SubmissionsList from "../component/SubmissionList";
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import SolveProblemRightPanel from "../component/SolveProblemRightPanel";
 
 const ProblemPage = () => {
   const { id } = useParams();
@@ -75,7 +77,6 @@ const ProblemPage = () => {
   };
 
   const handleRunCode = (e) => {
-    console.log("****************************")
     e.preventDefault();
     try {
       const language_id = getLanguageId(selectedLanguage);
@@ -170,13 +171,13 @@ const ProblemPage = () => {
         );
       case "discussion":
         return (
-          <div className="p-4 text-center text-base-content/70">
+          <div className="p-4 text-center text-base-content/70 min-h-screen">
             No discussions yet
           </div>
         );
       case "hints":
         return (
-          <div className="p-4">
+          <div className="p-4 min-h-screen">
             {problem?.hints ? (
               <div className="bg-base-200 p-6 rounded-xl">
                 <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white text-lg">
@@ -250,140 +251,77 @@ const ProblemPage = () => {
         </div>
       </nav>
 
-      <div className="container mx-auto p-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="card bg-base-100 shadow-xl">
-            <div className="card-body p-0">
-              <div className="tabs tabs-bordered">
-                <button
-                  className={`tab gap-2 ${
-                    activeTab === "description" ? "tab-active" : ""
-                  }`}
-                  onClick={() => setActiveTab("description")}
-                >
-                  <FileText className="w-4 h-4" />
-                  Description
-                </button>
-                <button
-                  className={`tab gap-2 ${
-                    activeTab === "submissions" ? "tab-active" : ""
-                  }`}
-                  onClick={() => setActiveTab("submissions")}
-                >
-                  <Code2 className="w-4 h-4" />
-                  Submissions
-                </button>
-                <button
-                  className={`tab gap-2 ${
-                    activeTab === "discussion" ? "tab-active" : ""
-                  }`}
-                  onClick={() => setActiveTab("discussion")}
-                >
-                  <MessageSquare className="w-4 h-4" />
-                  Discussion
-                </button>
-                <button
-                  className={`tab gap-2 ${
-                    activeTab === "hints" ? "tab-active" : ""
-                  }`}
-                  onClick={() => setActiveTab("hints")}
-                >
-                  <Lightbulb className="w-4 h-4" />
-                  Hints
-                </button>
-              </div>
-
-              <div className="p-6">{renderTabContent()}</div>
-            </div>
-          </div>
-
-          <div className="card bg-base-100 shadow-xl">
-            <div className="card-body p-0">
-              <div className="tabs tabs-bordered">
-                <button className="tab tab-active gap-2">
-                  <Terminal className="w-4 h-4" />
-                  Code Editor
-                </button>
-              </div>
-
-              <div className="h-[650px] w-full">
-                <Editor
-                  height="100%"
-                  language={selectedLanguage.toLowerCase()}
-                  theme="vs-dark"
-                  value={code}
-                  onChange={(value) => setCode(value || "")}
-                  options={{
-                    minimap: { enabled: false },
-                    fontSize: 20,
-                    lineNumbers: "on",
-                    roundedSelection: false,
-                    scrollBeyondLastLine: false,
-                    readOnly: false,
-                    automaticLayout: true,
-                  }}
-                />
-              </div>
-
-              <div className="p-4 border-t border-base-300 bg-base-200">
-                <div className="flex justify-between items-center">
-                  {/* <button
-                    className={`btn btn-primary gap-2 ${
-                      isExecuting ? "loading" : ""
-                    }`}
-                    onClick={handleRunCode}
-                    disabled={isExecuting}
-                  >
-                    {!isExecuting && <Play className="w-4 h-4" />}
-                    Run Code
-                  </button> */}
+      <div className="container mx-auto p-4 min-w-[95%]">
+        <PanelGroup direction="horizontal" className="w-full h-full">
+          {/* Left Panel (Description + Tabs) */}
+          <Panel defaultSize={50} minSize={30}>
+            <div className="card bg-base-100 shadow-xl h-full overflow-x-auto">
+              <div className="card-body p-0">
+                {/* Tabs */}
+                <div className="tabs tabs-bordered">
                   <button
-                    className={`btn btn-primary gap-2 ${
-                      isExecuting ? "loading" : ""
+                    className={`tab gap-2 ${
+                      activeTab === "description" ? "tab-active" : ""
                     }`}
-                    onClick={handleRunCode}
-                    disabled={isExecuting}
+                    onClick={() => setActiveTab("description")}
                   >
-                    {!isExecuting && <Play className="w-4 h-4" />}
-                    Submit Solution
+                    <FileText className="w-4 h-4" />
+                    Description
+                  </button>
+                  <button
+                    className={`tab gap-2 ${
+                      activeTab === "submissions" ? "tab-active" : ""
+                    }`}
+                    onClick={() => setActiveTab("submissions")}
+                  >
+                    <Code2 className="w-4 h-4" />
+                    Submissions
+                  </button>
+                  <button
+                    className={`tab gap-2 ${
+                      activeTab === "discussion" ? "tab-active" : ""
+                    }`}
+                    onClick={() => setActiveTab("discussion")}
+                  >
+                    <MessageSquare className="w-4 h-4" />
+                    Discussion
+                  </button>
+                  <button
+                    className={`tab gap-2 ${
+                      activeTab === "hints" ? "tab-active" : ""
+                    }`}
+                    onClick={() => setActiveTab("hints")}
+                  >
+                    <Lightbulb className="w-4 h-4" />
+                    Hints
                   </button>
                 </div>
+
+                <div className="p-6">{renderTabContent()}</div>
               </div>
             </div>
-          </div>
-        </div>
+          </Panel>
 
-        <div className="card bg-base-100 shadow-xl mt-6">
-          <div className="card-body">
-            {submission ? (
-              <Submission submission={submission} />
-            ) : (
-              <>
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-xl font-bold">Test Cases</h3>
-                </div>
-                <div className="overflow-x-auto">
-                  <table className="table table-zebra w-full">
-                    <thead>
-                      <tr>
-                        <th>Input</th>
-                        <th>Expected Output</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {testcases.map((testCase, index) => (
-                        <tr key={index}>
-                          <td className="font-mono">{testCase.input}</td>
-                          <td className="font-mono">{testCase.output}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
+          {/* Resize Handle */}
+          <PanelResizeHandle className="w-2 bg-white/70 hover:bg-white shadow-inner cursor-col-resize relative group">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-6 w-1 bg-base-300 rounded-full group-hover:bg-base-800 transition-all"></div>
+          </PanelResizeHandle>
+
+          {/* Right Panel (SolveProblemRightPanel) */}
+          <Panel defaultSize={50} minSize={25}>
+            <div className="h-full overflow-x-auto">
+              <SolveProblemRightPanel
+                selectedLanguage={selectedLanguage}
+                code={code}
+                setCode={setCode}
+                submission={submission}
+                testcases={testcases}
+                isExecuting={isExecuting}
+                handleRunCode={handleRunCode}
+              />
+            </div>
+          </Panel>
+        </PanelGroup>
       </div>
     </div>
   );

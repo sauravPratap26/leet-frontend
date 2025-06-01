@@ -27,7 +27,7 @@ const Submission = ({ submission }) => {
   const successRate = (passedTests / totalTests) * 100;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-h-[100]">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className="card bg-base-200 shadow-lg">
           <div className="card-body p-4">
