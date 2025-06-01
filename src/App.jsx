@@ -16,6 +16,7 @@ import Playlist from "./page/Playlist";
 import ProfilePage from "./page/ProfilePage";
 import ForgetPasswordPage from "./page/ForgotPassword";
 import ResetPasswordPage from "./page/resetPassword";
+import Visitors from "./page/Visitors";
 
 const App = () => {
   const { isCheckingAuth, authUser, checkAuth } = useAuthStore();
@@ -37,7 +38,7 @@ const App = () => {
     <div className="flex flex-col items-center justify-start">
       <Toaster position="top-right" reverseOrder={false} />
       <Routes>
-        <Route path="/" element={<>sps</>} />
+        <Route path="/" element={<Visitors/>} />
 
         <Route path="/home" element={<Layout />}>
           <Route
