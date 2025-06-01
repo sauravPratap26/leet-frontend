@@ -22,33 +22,38 @@ const problemSchema = z.object({
       })
     )
     .min(1, "At least one test case is required"),
-  examples: z.object({
-    JAVASCRIPT: z.object({
-      input: z.string().min(1, "Input is required"),
-      output: z.string().min(1, "Output is required"),
-      explanation: z.string().optional(),
-    }),
-    PYTHON: z.object({
-      input: z.string().min(1, "Input is required"),
-      output: z.string().min(1, "Output is required"),
-      explanation: z.string().optional(),
-    }),
-    JAVA: z.object({
-      input: z.string().min(1, "Input is required"),
-      output: z.string().min(1, "Output is required"),
-      explanation: z.string().optional(),
-    }),
+  examples: z
+    .object({
+      JAVASCRIPT: z
+        .object({
+          input: z.string().optional(),
+          output: z.string().optional(),
+          explanation: z.string().optional(),
+        })
+        .optional(),
+      PYTHON: z
+        .object({
+          input: z.string().optional(),
+          output: z.string().optional(),
+          explanation: z.string().optional(),
+        })
+        .optional(),
+      JAVA: z
+        .object({
+          input: z.string().optional(),
+          output: z.string().optional(),
+          explanation: z.string().optional(),
+        })
+        .optional(),
+    })
+    .optional(),
+
+  codeSnippets: z.any().refine((val) => val !== undefined, {
+    message: "Code snippets are required",
   }),
-  codeSnippets: z.object({
-    JAVASCRIPT: z.string().min(1, "JavaScript code snippet is required"),
-    PYTHON: z.string().min(1, "Python code snippet is required"),
-    JAVA: z.string().min(1, "Java solution is required"),
-  }),
-  referenceSolutions: z.object({
-    JAVASCRIPT: z.string().min(1, "JavaScript solution is required"),
-    PYTHON: z.string().min(1, "Python solution is required"),
-    JAVA: z.string().min(1, "Java solution is required"),
+  referenceSolutions: z.any().refine((val) => val !== undefined, {
+    message: "Reference solution is required",
   }),
 });
 
-export default problemSchema
+export default problemSchema;
