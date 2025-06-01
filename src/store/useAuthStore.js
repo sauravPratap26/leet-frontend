@@ -9,6 +9,7 @@ export const useAuthStore = create((set) => ({
   isCheckingAuth: false,
   avatar: null,
   userTags: [],
+  tagsSaving: false,
 
   checkAuth: async () => {
     set({ isCheckingAuth: true });
@@ -94,6 +95,7 @@ export const useAuthStore = create((set) => ({
 
   updateTags: async (data) => {
     try {
+      set({tagsSaving:true})
       const res = await axiosInstance.post("/profile/update-tags", {
         newTags: data,
       });
@@ -104,6 +106,8 @@ export const useAuthStore = create((set) => ({
     } catch (error) {
       console.log("Error updating tags", error);
       toast.error("Error updating tags");
+    }finally{
+      set({tagsSaving:false})
     }
   },
   forgotPassword: async (data) => {

@@ -49,6 +49,7 @@ export default function ProfilePage() {
     updatePassword,
     updateTags,
     userTags,
+    tagsSaving,
   } = useAuthStore();
 
   const {
@@ -78,8 +79,8 @@ export default function ProfilePage() {
     if (password.length < 6) {
       errors.push("Password must be at least 6 characters");
     }
-    if(password.length > 15) {
-      errors.push("Password must be atmost 15 characters")
+    if (password.length > 15) {
+      errors.push("Password must be atmost 15 characters");
     }
 
     return errors;
@@ -465,8 +466,13 @@ export default function ProfilePage() {
             <button
               className="btn btn-primary w-full hover:btn-secondary transition-all duration-300 transform hover:scale-105"
               onClick={handleTagsSave}
+              disabled={tagsSaving} // Optional: prevent re-click while saving
             >
-              Save Tags
+              {tagsSaving ? (
+                <span className="loading loading-spinner loading-sm"></span>
+              ) : (
+                "Save Tags"
+              )}
             </button>
           </div>
         </div>
