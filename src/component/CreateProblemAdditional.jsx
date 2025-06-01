@@ -1,5 +1,5 @@
 import { Lightbulb } from "lucide-react";
-import React from "react";
+import CreateProblemExamples from "./CreateProblemExamples";
 
 const CreateProblemAdditional = ({ register, errors }) => {
   return (
@@ -8,7 +8,9 @@ const CreateProblemAdditional = ({ register, errors }) => {
         <Lightbulb className="w-5 h-5 text-warning" />
         Additional Information
       </h3>
+
       <div className="space-y-6">
+        {/* Constraints */}
         <div className="form-control">
           <label className="label">
             <span className="label-text font-medium">Constraints</span>
@@ -26,6 +28,8 @@ const CreateProblemAdditional = ({ register, errors }) => {
             </label>
           )}
         </div>
+
+        {/* Hints */}
         <div className="form-control">
           <label className="label">
             <span className="label-text font-medium">Hints (Optional)</span>
@@ -36,6 +40,8 @@ const CreateProblemAdditional = ({ register, errors }) => {
             placeholder="Enter hints for solving the problem"
           />
         </div>
+
+        {/* Editorial */}
         <div className="form-control">
           <label className="label">
             <span className="label-text font-medium">Editorial (Optional)</span>
@@ -46,6 +52,9 @@ const CreateProblemAdditional = ({ register, errors }) => {
             placeholder="Enter problem editorial/solution explanation"
           />
         </div>
+
+        {/* Examples Section (at the end, side-by-side) */}
+        <CreateProblemExamples register={register} />
       </div>
     </div>
   );

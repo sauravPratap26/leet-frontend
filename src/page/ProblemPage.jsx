@@ -109,42 +109,43 @@ const ProblemPage = () => {
             {problem.examples && (
               <>
                 <h3 className="text-xl font-bold mb-4">Examples:</h3>
-                {Object.entries(problem.examples).map(
-                  // eslint-disable-next-line no-unused-vars
-                  ([lang, example], idx) => (
-                    <div
-                      key={lang}
-                      className="bg-base-200 p-6 rounded-xl mb-6 font-mono"
-                    >
-                      <div className="mb-4">
-                        <div className="text-indigo-300 mb-2 text-base font-semibold">
-                          Input:
-                        </div>
-                        <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white">
-                          {example.input}
-                        </span>
-                      </div>
-                      <div className="mb-4">
-                        <div className="text-indigo-300 mb-2 text-base font-semibold">
-                          Output:
-                        </div>
-                        <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white">
-                          {example.output}
-                        </span>
-                      </div>
-                      {example.explanation && (
-                        <div>
-                          <div className="text-emerald-300 mb-2 text-base font-semibold">
-                            Explanation:
-                          </div>
-                          <p className="text-base-content/70 text-lg font-sem">
-                            {example.explanation}
-                          </p>
-                        </div>
-                      )}
+                {Object.entries(problem.examples).map(([lang, example]) => (
+                  <div
+                    key={lang}
+                    className="bg-base-200 p-6 rounded-xl mb-6 font-mono"
+                  >
+                    <div className="text-lg font-bold text-primary mb-4">
+                      {lang}
                     </div>
-                  )
-                )}
+
+                    <div className="mb-4">
+                      <div className="text-indigo-300 mb-2 text-base font-semibold">
+                        Input:
+                      </div>
+                      <span className=" px-4 py-1 rounded-lg font-semibold text-white">
+                        {example.input.trim() || "No Input provided "}
+                      </span>
+                    </div>
+
+                    <div className="mb-4">
+                      <div className="text-indigo-300 mb-2 text-base font-semibold">
+                        Output:
+                      </div>
+                      <span className="px-4 py-1 rounded-lg font-semibold text-white">
+                        {example.output.trim() || "No Output provided"}
+                      </span>
+                    </div>
+
+                    <div>
+                      <div className="text-emerald-300 mb-2 text-base font-semibold">
+                        Explanation:
+                      </div>
+                      <p className="text-base-content/70 text-lg font-sem">
+                        {example.explanation.trim() || "No example provided"}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </>
             )}
 

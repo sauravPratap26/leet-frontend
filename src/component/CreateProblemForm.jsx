@@ -107,7 +107,7 @@ const CreateProblemForm = () => {
       if (error.response?.data?.code == 1011) {
         setErrorData(error.response.data);
         setModalOpen(true);
-      }else if( error.response?.data){
+      } else if (error.response?.data) {
         setErrorData(error.response.data);
         setModalOpen(true);
       }
@@ -197,21 +197,24 @@ const CreateProblemForm = () => {
             {errorData?.data?.error?.details && (
               <div className="bg-base-200 p-4 rounded space-y-2">
                 <p className="font-semibold text-sm">
-                  {errorData.data.error.message}
+                  {errorData?.data?.error?.message}
                 </p>
 
                 <div className="text-sm space-y-1">
                   <p>
                     <span className="font-medium">Input:</span>{" "}
-                    {errorData.data.error.details.input}
+                    {errorData?.data?.error?.details?.input}
                   </p>
                   <p>
                     <span className="font-medium">Expected:</span>{" "}
-                    {errorData.data.error.details.expected}
+                    {errorData?.data?.error?.details?.expected}
                   </p>
                   <p>
                     <span className="font-medium">Received:</span>{" "}
-                    {errorData.data.error.details.received.replace(/\n/g, "")}
+                    {errorData?.data?.error?.details?.received?.replace(
+                      /\n/g,
+                      ""
+                    )}
                   </p>
                   <p>
                     <span className="font-medium">Status:</span>{" "}
