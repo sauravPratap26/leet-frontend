@@ -152,7 +152,7 @@ const ProblemTile = ({ problem, style, type, activeTab }) => {
         </div>
 
         <div className="text-sm text-base-content/70 leading-relaxed mb-4 font-medium">
-          {problem.description}
+          {problem.description.substring(0, 97) + "..."}
         </div>
 
         <div className="flex flex-wrap gap-2 mb-4">
