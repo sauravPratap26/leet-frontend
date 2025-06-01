@@ -64,6 +64,9 @@ const ProblemTile = ({ problem, style, type, activeTab }) => {
   const removeFromPlaylist = (problemsIds) => {
     deletePlaylistQuestions([problemsIds]);
   };
+
+  const decideIsSolved =
+    (isSolved && type === "playlistTile") || problem?.isSolved;
   return (
     <div
       onClick={handleTileClick}
@@ -78,7 +81,7 @@ const ProblemTile = ({ problem, style, type, activeTab }) => {
         }`}
       ></div>
 
-      <div className="relative z-10">
+      <div className="relative z-10 flex-col">
         <div className="flex items-start gap-3 justify-between mb-3">
           <div className="flex items-center gap-3 min-w-0 flex-1 flex-wrap">
             <div
@@ -162,6 +165,14 @@ const ProblemTile = ({ problem, style, type, activeTab }) => {
             </span>
           ))}
         </div>
+        <div
+          className="self-end"
+          style={{ color: decideIsSolved ? "#605DFF" : "#fff" }}
+        >
+          {decideIsSolved
+            ? "Already Solved, Click to solve again"
+            : "Click to solve"}
+        </div>
       </div>
 
       {showPopup && (
@@ -213,7 +224,7 @@ const ProblemTile = ({ problem, style, type, activeTab }) => {
 
       <div
         className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none ${
-          (isSolved && type === "playlistTile") || problem?.isSolved
+          decideIsSolved
             ? "bg-gradient-to-r from-success/6 via-transparent to-success/8"
             : "bg-gradient-to-r from-primary/8 via-transparent to-secondary/8"
         }`}
