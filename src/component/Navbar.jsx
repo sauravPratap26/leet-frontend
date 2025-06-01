@@ -50,7 +50,7 @@ const Navbar = () => {
                   My Profile
                 </Link>
               </li>
-              {authUser?.role === "ADMIN" && (
+              {/* {authUser?.role === "ADMIN" && (
                 <li>
                   <Link
                     to="/add-problem"
@@ -60,7 +60,7 @@ const Navbar = () => {
                     Add Problem
                   </Link>
                 </li>
-              )}
+              )} */}
               <li>
                 <LogoutButton className="hover:bg-primary hover:text-white">
                   <LogOut className="w-4 h-4 mr-2" />
