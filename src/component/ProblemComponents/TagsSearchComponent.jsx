@@ -53,7 +53,7 @@ const TagDropdown = () => {
           tabIndex={0}
           role="menu"
           aria-label="Tag selection menu"
-          className="dropdown-content z-[50] menu p-0 shadow-lg bg-base-100 rounded-lg w-max mt-2 max-h-80 overflow-hidden border border-base-300 ml-auto"
+          className="dropdown-content z-[50] menu p-0 shadow-lg bg-base-100 rounded-lg w-full mt-2 max-h-80 overflow-hidden border border-base-300"
         >
           <div className="p-3 border-b border-base-300 bg-base-200/50">
             <button
@@ -75,7 +75,7 @@ const TagDropdown = () => {
             </div>
           </div>
 
-          <div className="overflow-y-auto max-h-80">
+          <div className="overflow-y-auto max-h-80 w-min-80%">
             {allTags.map((tag) => (
               <li
                 key={tag}
@@ -108,14 +108,6 @@ const TagDropdown = () => {
               </li>
             ))}
           </div>
-
-          {allTags.length > 8 && (
-            <div className="p-2 border-t border-base-300 bg-base-200/30 text-center">
-              <span className="text-xs text-base-content/60">
-                Scroll to see all {allTags.length} tags
-              </span>
-            </div>
-          )}
         </ul>
       </div>
     </div>
