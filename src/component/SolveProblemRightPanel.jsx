@@ -16,10 +16,18 @@ const SolveProblemRightPanel = ({
     <div className="card bg-base-100 shadow-xl h-full flex flex-col">
       <div className="card-body p-0 flex flex-col overflow-hidden">
         {/* Tabs */}
-        <div className="tabs tabs-bordered">
+        <div className="tabs tabs-bordered flex justify-between mr-10">
           <button className="tab tab-active gap-2">
             <Terminal className="w-4 h-4" />
             Code Editor
+          </button>
+          <button
+            className={`btn btn-primary gap-2 ${isExecuting ? "loading" : ""}`}
+            onClick={handleRunCode}
+            disabled={isExecuting}
+          >
+            {!isExecuting && <Play className="w-4 h-4" />}
+            Submit Solution
           </button>
         </div>
 
@@ -85,20 +93,6 @@ const SolveProblemRightPanel = ({
         </PanelGroup>
 
         {/* Submit Button */}
-        <div className="p-4 border-t border-base-300 bg-base-200">
-          <div className="flex justify-between items-center">
-            <button
-              className={`btn btn-primary gap-2 ${
-                isExecuting ? "loading" : ""
-              }`}
-              onClick={handleRunCode}
-              disabled={isExecuting}
-            >
-              {!isExecuting && <Play className="w-4 h-4" />}
-              Submit Solution
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   );
