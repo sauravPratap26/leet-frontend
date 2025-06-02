@@ -32,6 +32,7 @@ const CreateProblemForm = () => {
     control,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(problemSchema),
@@ -43,6 +44,7 @@ const CreateProblemForm = () => {
         PYTHON: { input: "", output: "", explanation: "" },
         JAVA: { input: "", output: "", explanation: "" },
       },
+      languageSolutionArray: ["JAVASCRIPT"],
       codeSnippets: {
         JAVASCRIPT: "function solution() {\n  // Write your code here\n}",
         PYTHON: "def solution():\n    # Write your code here\n    pass",
@@ -88,12 +90,18 @@ const CreateProblemForm = () => {
     } else {
       sampleData1 = sampleStringProblem;
     }
+
+    // Ensure languageSolutionArray is included in sampleData1
+    if (!sampleData1.languageSolutionArray) {
+      sampleData1.languageSolutionArray = ["JAVASCRIPT", "PYTHON", "JAVA"];
+    }
+
     replaceTags(sampleData1.tags.map((tag) => tag));
     replacetestcases(sampleData1.testcases.map((tc) => tc));
 
-    // Reset the form with sample data
     reset(sampleData1);
   };
+
   const onSubmit = async (value) => {
     try {
       setIsLoading(true);
@@ -139,7 +147,11 @@ const CreateProblemForm = () => {
             className="space-y-8"
           >
             {/* Basic Information */}
-            <CreateProblemBasicInfo register={register} errors={errors} />
+            <CreateProblemBasicInfo
+              register={register}
+              control={control}
+              errors={errors}
+            />
 
             {/* Tags */}
             <CreateProblemTags
@@ -160,10 +172,18 @@ const CreateProblemForm = () => {
             />
 
             {/* Code Editor Sections */}
-            <CreateProblemEditor errors={errors} control={control} />
+            <CreateProblemEditor
+              errors={errors}
+              control={control}
+              languageSolutionArray={watch("languageSolutionArray")}
+            />
 
             {/* Additional Information */}
-            <CreateProblemAdditional errors={errors} register={register} />
+            <CreateProblemAdditional
+              errors={errors}
+              register={register}
+              languageSolutionArray={watch("languageSolutionArray")}
+            />
 
             <div className="card-actions justify-end pt-4 border-t">
               <button type="submit" className="btn btn-primary btn-lg gap-2">

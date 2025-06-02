@@ -1,7 +1,11 @@
 import { Lightbulb } from "lucide-react";
 import CreateProblemExamples from "./CreateProblemExamples";
 
-const CreateProblemAdditional = ({ register, errors }) => {
+const CreateProblemAdditional = ({
+  register,
+  errors,
+  languageSolutionArray,
+}) => {
   return (
     <div className="card bg-base-200 p-4 md:p-6 shadow-md">
       <h3 className="text-lg md:text-xl font-semibold mb-6 flex items-center gap-2">
@@ -54,7 +58,10 @@ const CreateProblemAdditional = ({ register, errors }) => {
         </div>
 
         {/* Examples Section (at the end, side-by-side) */}
-        <CreateProblemExamples register={register} />
+        <CreateProblemExamples
+          register={register}
+          languageSolutionArray={languageSolutionArray}
+        />
       </div>
     </div>
   );

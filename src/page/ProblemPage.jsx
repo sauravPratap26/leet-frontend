@@ -1,27 +1,19 @@
-import React, { useState, useEffect } from "react";
-import Editor from "@monaco-editor/react";
+import { useState, useEffect } from "react";
 import {
-  Play,
   FileText,
   MessageSquare,
   Lightbulb,
-  Bookmark,
   Share2,
   Clock,
-  ChevronRight,
-  BookOpen,
-  Terminal,
   Code2,
   Users,
   ThumbsUp,
-  Home,
 } from "lucide-react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useProblemStore } from "../store/useProblemStore";
 import { getLanguageId } from "../lib/lang";
 import { useExecutionStore } from "../store/useExecutionStore";
 import { useSubmissionStore } from "../store/useSubmissionStore";
-import Submission from "../component/Submission";
 import SubmissionsList from "../component/SubmissionList";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import SolveProblemRightPanel from "../component/SolveProblemRightPanel";
@@ -40,10 +32,15 @@ const ProblemPage = () => {
 
   const [code, setCode] = useState("");
   const [activeTab, setActiveTab] = useState("description");
-  const [selectedLanguage, setSelectedLanguage] = useState("JAVASCRIPT");
+  const [selectedLanguage, setSelectedLanguage] = useState(
+    problem.languageSolutionArray[0] || "JAVASCRIPT"
+  );
   const [testcases, setTestCases] = useState([]);
-
   const { executeCode, submission, isExecuting } = useExecutionStore();
+  const LanguageList =
+    problem.languageSolutionArray.length > 0
+      ? problem.languageSolutionArray
+      : ["JAVASCRIPT", "PYTHON", "JAVA"];
 
   useEffect(() => {
     getProblemById(id);
@@ -243,7 +240,7 @@ const ProblemPage = () => {
             value={selectedLanguage}
             onChange={handleLanguageChange}
           >
-            {Object.keys(problem.codeSnippets || {}).map((lang) => (
+            {LanguageList.map((lang) => (
               <option key={lang} value={lang}>
                 {lang.charAt(0).toUpperCase() + lang.slice(1)}
               </option>

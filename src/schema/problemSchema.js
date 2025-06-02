@@ -22,6 +22,9 @@ const problemSchema = z.object({
       })
     )
     .min(1, "At least one test case is required"),
+  languageSolutionArray: z
+    .array(z.string())
+    .min(1, "At least one language should  be there"),
   examples: z
     .object({
       JAVASCRIPT: z
