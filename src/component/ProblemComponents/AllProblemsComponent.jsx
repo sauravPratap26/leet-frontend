@@ -13,6 +13,7 @@ import TagDropdown from "./TagsSearchComponent";
 import AddProblem from "../../page/AddProblem";
 import CreateProblemForm from "../CreateProblemForm";
 import { Loader } from "lucide-react";
+import { useTagsStore } from "../../store/useTagsStore";
 
 const AllProblemsComponent = () => {
   const [activeTab, setActiveTab] = useState("global");
@@ -32,6 +33,7 @@ const AllProblemsComponent = () => {
     getPlaylistProblemsByUser,
     getCreatedProblemsByUser,
   } = useProblemStore();
+  const {getAllTags}= useTagsStore()
 
   const { authUser } = useAuthStore();
 
@@ -42,19 +44,14 @@ const AllProblemsComponent = () => {
   useEffect(() => {
     if (activeTab === "global") {
       getAllProblems();
+      getAllTags()
       // getSolvedProblemByUser();
     } else if (activeTab === "solved") {
       //todo
     } else if (activeTab === "created") {
       if (authUser.role === "ADMIN") getCreatedProblemsByUser();
     }
-  }, [
-    activeTab,
-    authUser.role,
-    getAllProblems,
-    getCreatedProblemsByUser,
-    getSolvedProblemByUser,
-  ]);
+  }, [activeTab, authUser.role, getAllProblems, getAllTags, getCreatedProblemsByUser, getSolvedProblemByUser]);
   const { questionSearch } = useSearchHook();
 
   const selectQuestions = () => {
