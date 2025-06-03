@@ -12,11 +12,12 @@ import { Toaster } from "react-hot-toast";
 import UserRoute from "./component/UserRoute";
 import AllProblemsComponent from "./component/ProblemComponents/AllProblemsComponent";
 import ProblemPage from "./page/ProblemPage";
-import Playlist from "./page/Playlist";
 import ProfilePage from "./page/ProfilePage";
 import ForgetPasswordPage from "./page/ForgotPassword";
 import ResetPasswordPage from "./page/resetPassword";
 import Visitors from "./page/Visitors";
+import Playlist from "./page/Playlist";
+import Rooms from "./page/Rooms";
 
 const App = () => {
   const { isCheckingAuth, authUser, checkAuth } = useAuthStore();
@@ -38,7 +39,7 @@ const App = () => {
     <div className="flex flex-col items-center justify-start">
       <Toaster position="top-right" reverseOrder={false} />
       <Routes>
-        <Route path="/" element={<Visitors/>} />
+        <Route path="/" element={<Visitors />} />
 
         <Route path="/home" element={<Layout />}>
           <Route
@@ -63,20 +64,12 @@ const App = () => {
           element={<ResetPasswordPage />}
         />
 
-        <Route element={<AdminRoute />}>
-          {/* <Route
-            path="/add-problem"
-            element={authUser ? <AddProblem /> : <Navigate to="/" />}
-          /> */}
-          {/* <Route
-          path ="/get-problems"
-          element={authUds}
-          /> */}
-        </Route>
         <Route element={<UserRoute />}>
           <Route
             path="/all-problems"
-            element={authUser ? <AllProblemsComponent /> : <Navigate to="/login" />}
+            element={
+              authUser ? <AllProblemsComponent /> : <Navigate to="/login" />
+            }
           />
           <Route
             path="/playlist-page/:playlistId"
@@ -89,6 +82,10 @@ const App = () => {
           <Route
             path="/profile"
             element={authUser ? <ProfilePage /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/rooms"
+            element={authUser ? <Rooms /> : <Navigate to="/login" />}
           />
         </Route>
       </Routes>
