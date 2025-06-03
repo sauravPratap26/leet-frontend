@@ -12,11 +12,10 @@ import PlaylistAnalytics from "../component/PlaylistAnalytics";
 
 const Playlist = () => {
   const { playlistId } = useParams();
-  const { playlistQuestions, getPlaylistQuestions, isPlaylistLoading } =
-    usePlaylistStore();
+  const { getPlaylistQuestions, isPlaylistLoading } = usePlaylistStore();
   useEffect(() => {
     getPlaylistQuestions(playlistId);
-  }, []);
+  }, [getPlaylistQuestions, playlistId]);
 
   const [activeTab, setActiveTab] = useState("problems");
   const originalQuestions = usePlaylistStore(
