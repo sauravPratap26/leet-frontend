@@ -15,6 +15,7 @@ import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
 import {
   noData,
+  // pushData,
   sampledpData,
   sampleStringProblem,
 } from "../dummy data/DummyData";
@@ -102,6 +103,22 @@ const CreateProblemForm = () => {
     reset(sampleData1);
   };
 
+  //push sample data code on prod
+
+  //     replaceTags(sampleData1.tags.map((tag) => tag));
+  //   replacetestcases(sampleData1.testcases.map((tc) => tc));
+  //   reset(sampleData1);
+  // };
+  // ;
+  //   const [selectedIndex, setSelectedIndex] = useState(-1);
+
+  // const handleSelectChange = (e) => {
+  //   const value = parseInt(e.target.value, 10);
+  //   setSelectedIndex(value);
+  //   if (value !== -1) {
+  //     loadSampleData(`code-${value}`);
+  //   }
+  // };
   const onSubmit = async (value) => {
     try {
       setIsLoading(true);
@@ -140,6 +157,18 @@ const CreateProblemForm = () => {
               Create Problem
             </h2> */}
             <CreateProblemActions loadSampleData={loadSampleData} />
+            {/* <select
+              value={selectedIndex}
+              onChange={handleSelectChange}
+              className="mt-4 md:mt-0 ml-0 md:ml-4 border rounded p-2 bg-amber-400"
+            >
+              <option value={-1}>Select</option>
+              {Array.from({ length: 16 }, (_, i) => (
+                <option key={i} value={i}>
+                  {i}
+                </option>
+              ))}
+            </select> */}
           </div>
 
           <form

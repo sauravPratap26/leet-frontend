@@ -32,14 +32,11 @@ const ProblemPage = () => {
 
   const [code, setCode] = useState("");
   const [activeTab, setActiveTab] = useState("description");
-  const [selectedLanguage, setSelectedLanguage] = useState(
-    problem.languageSolutionArray[0] || "JAVASCRIPT"
-  );
   const [testcases, setTestCases] = useState([]);
   const { executeCode, submission, isExecuting } = useExecutionStore();
   const LanguageList =
-    problem.languageSolutionArray.length > 0
-      ? problem.languageSolutionArray
+    problem?.languageSolutionArray?.length > 0
+      ? problem?.languageSolutionArray
       : ["JAVASCRIPT", "PYTHON", "JAVA"];
 
   useEffect(() => {
@@ -47,6 +44,11 @@ const ProblemPage = () => {
     getSubmissionCountForProblem(id);
   }, [getProblemById, getSubmissionCountForProblem, id]);
 
+  const [selectedLanguage, setSelectedLanguage] = useState(
+    problem?.languageSolutionArray?.length > 0
+      ? problem?.languageSolutionArray[0]
+      : "JAVASCRIPT"
+  );
   useEffect(() => {
     if (problem) {
       setCode(

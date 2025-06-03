@@ -214,7 +214,11 @@ const TagsCharts = () => {
       <div className="w-full px-[25px] space-y-6 overflow-y-auto mb-[20px]">
         <div
           className={`p-4 bg-base-200 rounded-box shadow-md ${
-            problemsData.length > 10 ? "h-[600px]" : "h-[450px]"
+            problemsData.length > 18
+              ? "h-[700px]"
+              : problemsData.length > 10
+              ? "h-[600px]"
+              : "h-[450px]"
           }`}
         >
           <div className="flex justify-between items-center mb-4">

@@ -54,7 +54,7 @@ const SubmissionsList = ({
   // No submissions state
   if (!submissions?.length) {
     return (
-      <div className="text-center p-8">
+      <div className="text-center p-8 min-h-screen">
         <div className="text-base-content/70">No submissions yet</div>
       </div>
     );
