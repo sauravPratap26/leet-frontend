@@ -227,10 +227,10 @@ console.log(result); // Output: 2`}
         <div className="container mx-auto px-4 lg:px-6">
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">
-              Not Just Another Coding Platform
+              Not Just Another Code Editor 
             </h2>
             <p className="text-lg sm:text-xl text-base-content/80 max-w-3xl mx-auto backdrop-blur-sm bg-base-200/50 px-4 py-2 rounded-lg border border-primary/30 shadow-[0_0_20px_1px_var(--tw-shadow-color)] shadow-secondary/20">
-              No fancy features, but features that matters!
+              No fancy features, but features that matters to your organisation!
             </p>
           </div>
 
