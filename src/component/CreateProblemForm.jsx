@@ -27,7 +27,8 @@ import CreateProblemTestCases from "./CreateProblemTestCases";
 import CreateProblemEditor from "./CreateProblemEditor";
 import CreateProblemAdditional from "./CreateProblemAdditional";
 
-const CreateProblemForm = () => {
+
+const CreateProblemForm = ({ questionForRoom = null, playlistId = null }) => {
   const {
     register,
     control,
@@ -122,7 +123,16 @@ const CreateProblemForm = () => {
   const onSubmit = async (value) => {
     try {
       setIsLoading(true);
-      const res = await axiosInstance.post("/problem/create-problem", value);
+      let res;
+      if (questionForRoom !== null && playlistId !== null) {
+        res = await axiosInstance.post("/problem/room/create-problem", {
+          ...value,
+          roomId: questionForRoom,
+          playlistId,
+        });
+      } else {
+        res = await axiosInstance.post("/problem/create-problem", value);
+      }
       toast.success(res.data.data.message || "Problem Created successfully⚡");
       loadSampleData("reset");
     } catch (error) {
