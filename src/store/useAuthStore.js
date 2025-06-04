@@ -5,7 +5,7 @@ import { persist } from "zustand/middleware";
 
 export const useAuthStore = create(
   persist(
-    (set) => ({
+    (set, get) => ({
       authUser: null,
       isSigninUp: false,
       isLoggingIn: false,
@@ -13,6 +13,12 @@ export const useAuthStore = create(
       avatar: null,
       userTags: [],
       tagsSaving: false,
+      collapsedSidebar: false,
+
+      toggleSideBar: () => {
+        const current = get().collapsedSidebar;
+        set({ collapsedSidebar: !current });
+      },
 
       checkAuth: async () => {
         set({ isCheckingAuth: true });

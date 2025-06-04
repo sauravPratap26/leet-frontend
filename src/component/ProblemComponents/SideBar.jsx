@@ -1,58 +1,54 @@
-import React from "react";
 import {
   Globe,
   CheckCircle,
   PlusCircle,
   ListMusic,
-  ChevronDown,
   ChevronRight,
+  ChevronLeft,
   BookImage,
   ChartBar,
-  PersonStanding,
-  Settings,
   TagsIcon,
   PlusSquareIcon,
-  WorkflowIcon,
+  RocketIcon,
+  HomeIcon,
+  FileQuestionIcon,
 } from "lucide-react";
 import { usePlaylistStore } from "../../store/usePlaylistStore";
 import { useAuthStore } from "../../store/useAuthStore";
+
 const SideBar = ({ setActiveTab, activeTab, type }) => {
   const { playlist } = usePlaylistStore();
-  const { authUser } = useAuthStore();
+  const { authUser, collapsedSidebar, toggleSideBar } = useAuthStore();
+
   let sideOptions = [
     {
       label: "Global Problems",
-      icon: <Globe size={18} className="mr-2" />,
+      icon: <Globe size={18} />,
       key: "global",
     },
     {
       label: "Solved Problems",
-      icon: <CheckCircle size={18} className="mr-2" />,
+      icon: <CheckCircle size={18} />,
       key: "solved",
     },
     {
       label: "Created Problems",
-      icon: <PlusCircle size={18} className="mr-2" />,
+      icon: <PlusCircle size={18} />,
       key: "created",
     },
     {
       label: "Playlist Problems",
-      icon: <ListMusic size={18} className="mr-2" />,
+      icon: <ListMusic size={18} />,
       key: "playlist",
     },
     {
       label: "Add Problem",
-      icon: <PlusSquareIcon size={18} className="mr-2" />,
+      icon: <PlusSquareIcon size={18} />,
       key: "add",
     },
-    // {
-    //   label: "Update Problem",
-    //   icon: <WorkflowIcon size={18} className="mr-2" />,
-    //   key: "update",
-    // },
     {
       label: "Tags",
-      icon: <TagsIcon size={18} className="mr-2" />,
+      icon: <TagsIcon size={18} />,
       key: "tags",
     },
   ];
@@ -63,31 +59,90 @@ const SideBar = ({ setActiveTab, activeTab, type }) => {
     );
   }
 
-  if (type == "playlistTitle") {
+  if (type === "playlistTitle") {
     sideOptions = [
       {
         label: "Problems",
-        icon: <BookImage size={18} className="mr-2" />,
+        icon: <BookImage size={18} />,
         key: "problems",
       },
       {
         label: "Analytics",
-        icon: <ChartBar size={18} className="mr-2" />,
+        icon: <ChartBar size={18} />,
         key: "analytics",
       },
-      // {
-      //   label: "Settings",
-      //   icon: <Settings size={18} className="mr-2" />,
-      //   key: "settings",
-      // },
     ];
   }
+
+  if (type === "roomPlaylistTitle") {
+    sideOptions = [
+      {
+        label: "Problems",
+        icon: <BookImage size={18} />,
+        key: "problems",
+      },
+      {
+        label: "Analytics",
+        icon: <ChartBar size={18} />,
+        key: "analytics",
+      },
+
+      {
+        label: "Add Questions",
+        icon: <FileQuestionIcon size={18} />,
+        key: "roomQuestions",
+      },
+    ];
+  }
+
+  if (type === "rooms") {
+    sideOptions = [
+      {
+        label: "My Rooms",
+        icon: <HomeIcon size={18} />,
+        key: "viewRooms",
+      },
+      {
+        label: "Create Room",
+        icon: <RocketIcon size={18} />,
+        key: "createRooms",
+      },
+    ];
+  }
+
+  const titleToBeShown =
+    type === "playlistTitle" || type == "roomPlaylistTitle"
+      ? playlist?.name || "Playlist"
+      : type === "rooms"
+      ? "Private Rooms"
+      : "Tags & Problems";
+
   return (
-    <div className="w-64 bg-base-200 p-4 flex flex-col border-r border-base-300">
-      <h2 className="text-xl font-bold mb-6 text-base-content flex items-center gap-2">
-        <ChevronDown size={20} />
-        {type == "playlistTitle" ? playlist.name : "Tags & Problems"}
-      </h2>
+    <div
+      className={`transition-all duration-300 ${
+        collapsedSidebar ? "w-20" : "w-64"
+      } bg-base-200 p-4 flex flex-col border-r border-base-300`}
+    >
+      {/* Title Bar */}
+      <div className="flex items-center justify-between mb-6 text-base-content">
+        {!collapsedSidebar && (
+          <h2 className="text-xl font-bold flex items-center gap-2">
+            {titleToBeShown}
+          </h2>
+        )}
+        <button
+          className="btn btn-ghost btn-sm ml-auto"
+          onClick={() => toggleSideBar()}
+        >
+          {collapsedSidebar ? (
+            <ChevronRight size={20} />
+          ) : (
+            <ChevronLeft size={20} />
+          )}
+        </button>
+      </div>
+
+      {/* Nav Items */}
       <nav className="space-y-2">
         {sideOptions.map((item) => (
           <div
@@ -98,13 +153,15 @@ const SideBar = ({ setActiveTab, activeTab, type }) => {
 
             <button
               onClick={() => setActiveTab(item.key)}
-              className={`btn btn-ghost justify-start w-full relative z-10 ${
+              className={`btn btn-ghost justify-start w-full relative z-10 gap-2 ${
                 activeTab === item.key ? "btn-active" : ""
-              }`}
+              } ${collapsedSidebar ? "flex justify-center" : ""}`}
             >
               {item.icon}
-              {item.label}
-              <ChevronRight size={16} className="ml-auto" />
+              {!collapsedSidebar && item.label}
+              {!collapsedSidebar && (
+                <ChevronRight size={16} className="ml-auto" />
+              )}
             </button>
           </div>
         ))}
