@@ -133,10 +133,19 @@ const HomePage = () => {
 
       <div className="flex gap-4 mt-8 z-10 items-center">
         <Link to="/all-problems" className="btn btn-primary text-lg">
-          Explore Tags & Problems
+          Global Tags & Problems
         </Link>
 
-        <div className="tooltip" data-tip="Coming in v2">
+        <button
+          className="btn btn-outline btn-secondary text-lg"
+          onClick={() => setModalOpen(true)}
+        >
+          Add Playlist
+        </button>
+        <Link to="/rooms" className="btn btn-primary text-lg">
+          Private Community
+        </Link>
+        {/* <div className="tooltip" data-tip="Coming in v2">
           <button
             className="btn btn-outline btn-lg flex items-center gap-2 cursor-default text-gray-500 border-gray-400 hover:shadow-lg hover:border-gray-600 transition"
             type="button"
@@ -145,14 +154,7 @@ const HomePage = () => {
             <PlaySquareIcon className="w-5 h-5" />
             Explore Playlist
           </button>
-        </div>
-
-        <button
-          className="btn btn-outline btn-secondary text-lg"
-          onClick={() => setModalOpen(true)}
-        >
-          Add Playlist
-        </button>
+        </div> */}
       </div>
 
       {/* Playlist Cards */}
