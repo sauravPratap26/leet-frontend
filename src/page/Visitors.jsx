@@ -152,7 +152,6 @@ export default function Visitors() {
             </div>
 
             <div className="relative order-first lg:order-last">
-              {/* Animated Code Block */}
               <div className="bg-base-200 rounded-lg p-4 sm:p-6 border border-base-content/10 shadow-2xl min-h-[200px] sm:min-h-[300px]">
                 <div className="flex items-center space-x-2 mb-4">
                   <div className="w-2 h-2 sm:w-3 sm:h-3 bg-error rounded-full"></div>
@@ -199,7 +198,6 @@ console.log(result); // Output: 2`}
                     onChange={() => {}}
                   />
                 </div>
-                {/* Mobile code preview */}
                 <div className="block sm:hidden">
                   <pre className="text-xs text-success overflow-x-auto">
                     <code>{`function binarySearch(arr, target) {
@@ -218,7 +216,6 @@ console.log(result); // Output: 2`}
                   </pre>
                 </div>
               </div>
-              {/* Floating Elements */}
               <div className="absolute -top-2 -right-2 sm:-top-4 sm:-right-4 w-6 h-6 sm:w-8 sm:h-8 bg-primary rounded-full animate-pulse"></div>
               <div className="absolute -bottom-2 -left-2 sm:-bottom-4 sm:-left-4 w-4 h-4 sm:w-6 sm:h-6 bg-secondary rounded-full animate-bounce"></div>
             </div>
@@ -226,7 +223,6 @@ console.log(result); // Output: 2`}
         </div>
       </section>
 
-      {/* Features Section */}
       <section id="features" className="py-12 sm:py-20 bg-base-200">
         <div className="container mx-auto px-4 lg:px-6">
           <div className="text-center mb-12 sm:mb-16">
@@ -239,13 +235,11 @@ console.log(result); // Output: 2`}
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-12 sm:mb-16">
-            {/* Card Template */}
             {cardsDummyData.map((card, index) => (
               <div
                 key={index}
                 className="relative group transition-transform duration-500 hover:scale-[1.03]"
               >
-                {/* Animated Gradient Border */}
                 <div
                   className="absolute inset-0 rounded-xl animated-border pointer-events-none opacity-30 group-hover:opacity-100 transition-opacity duration-500 z-0"
                   style={{
@@ -253,7 +247,6 @@ console.log(result); // Output: 2`}
                   }}
                 />
 
-                {/* Card Content */}
                 <div
                   className="relative z-10 card bg-base-100 shadow-xl hover:shadow-2xl overflow-hidden border border-base-content/5 transition-all duration-300
                   flex flex-col h-full"
@@ -278,12 +271,10 @@ console.log(result); // Output: 2`}
             ))}
           </div>
 
-          {/* Feature Showcase */}
           <VisitorsCharts />
         </div>
       </section>
 
-      {/* Editor Showcase - Hidden on mobile */}
       <div className="hidden lg:block">
         <VisitorsEditors />
       </div>
@@ -309,7 +300,6 @@ console.log(result); // Output: 2`}
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="footer footer-center p-4 bg-base-300 text-base-content border-t border-base-200">
         <div>
           <p className="text-sm">
@@ -327,7 +317,6 @@ console.log(result); // Output: 2`}
               ⚠️ Light Mode Attempt Detected!
             </h3>
 
-            {/* Modal Content */}
             <p className="py-4 text-sm sm:text-base text-base-content/80">
               We tried switching to light mode... and our servers cried. 🤷‍♀️
               <br />
@@ -347,7 +336,6 @@ console.log(result); // Output: 2`}
               Until then, please embrace the shadows. 🖤
             </p>
 
-            {/* Modal Actions */}
             <div className="modal-action">
               <button
                 className="btn btn-error btn-sm sm:btn-md"
