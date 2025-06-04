@@ -17,7 +17,8 @@ import ForgetPasswordPage from "./page/ForgotPassword";
 import ResetPasswordPage from "./page/resetPassword";
 import Visitors from "./page/Visitors";
 import Playlist from "./page/Playlist";
-import Rooms from "./page/Rooms";
+import RoomsPage from "./page/RoomsPage";
+import RoomPlayliist from "./component/RoomsCompoents/RoomPlayliist";
 
 const App = () => {
   const { isCheckingAuth, authUser, checkAuth } = useAuthStore();
@@ -72,7 +73,11 @@ const App = () => {
             }
           />
           <Route
-            path="/playlist-page/:playlistId"
+            path="/playlist-page/:playlistId/:roomId"
+            element={authUser ? <Playlist /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/playlist-page/:playlistId/"
             element={authUser ? <Playlist /> : <Navigate to="/login" />}
           />
           <Route
@@ -85,7 +90,11 @@ const App = () => {
           />
           <Route
             path="/rooms"
-            element={authUser ? <Rooms /> : <Navigate to="/login" />}
+            element={authUser ? <RoomsPage /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/room/:id"
+            element={authUser ? <RoomPlayliist /> : <Navigate to="/login" />}
           />
         </Route>
       </Routes>
