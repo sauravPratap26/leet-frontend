@@ -12,6 +12,8 @@ import {
   RocketIcon,
   HomeIcon,
   FileQuestionIcon,
+  FileMusicIcon,
+  UserCheckIcon,
 } from "lucide-react";
 const HeadingComponent = ({ activeTab, authUser }) => {
   return (
@@ -29,7 +31,8 @@ const HeadingComponent = ({ activeTab, authUser }) => {
       {activeTab === "createRooms" && <RocketIcon size={24} />}
       {activeTab === "viewRooms" && <HomeIcon size={24} />}
       {activeTab === "roomQuestions" && <FileQuestionIcon size={24} />}
-      
+      {activeTab === "roomPlaylists" && <FileMusicIcon size={24} />}
+      {activeTab === "students" && <UserCheckIcon size={24} />}
       {authUser?.role === "ADMIN" && activeTab === "add" && (
         <PlusSquareIcon size={24} />
       )}
@@ -51,6 +54,8 @@ const HeadingComponent = ({ activeTab, authUser }) => {
       {activeTab === "createRooms" && "Create Room"}
       {activeTab === "viewRooms" && "My Rooms"}
       {activeTab === "roomQuestions" && "Create Playlist Questions"}
+      {activeTab === "roomPlaylists" && "Room Playlists"}
+      {activeTab === "students" && "Room Students"}
     </h1>
   );
 };

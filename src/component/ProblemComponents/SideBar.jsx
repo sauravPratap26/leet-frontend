@@ -12,11 +12,13 @@ import {
   RocketIcon,
   HomeIcon,
   FileQuestionIcon,
+  FileMusicIcon,
+  UserCheckIcon,
 } from "lucide-react";
 import { usePlaylistStore } from "../../store/usePlaylistStore";
 import { useAuthStore } from "../../store/useAuthStore";
 
-const SideBar = ({ setActiveTab, activeTab, type }) => {
+const SideBar = ({ setActiveTab, activeTab, type, conditional = true }) => {
   const { playlist } = usePlaylistStore();
   const { authUser, collapsedSidebar, toggleSideBar } = useAuthStore();
 
@@ -95,6 +97,25 @@ const SideBar = ({ setActiveTab, activeTab, type }) => {
     ];
   }
 
+  if (type === "roomArea") {
+    sideOptions = [
+      {
+        label: "Playlists",
+        icon: <FileMusicIcon size={18} />,
+        key: "roomPlaylists",
+      },
+      {
+        label: "Students",
+        icon: <UserCheckIcon size={18} />,
+        key: "students",
+      },
+    ];
+  }
+
+  if (!conditional) {
+    sideOptions = sideOptions.filter((item) => item.key != "students");
+  }
+
   if (type === "rooms") {
     sideOptions = [
       {
@@ -110,12 +131,16 @@ const SideBar = ({ setActiveTab, activeTab, type }) => {
     ];
   }
 
-  const titleToBeShown =
+  let titleToBeShown =
     type === "playlistTitle" || type == "roomPlaylistTitle"
       ? playlist?.name || "Playlist"
       : type === "rooms"
       ? "Private Rooms"
       : "Tags & Problems";
+
+      if(type == "roomArea"){
+        titleToBeShown="Private Room"
+      }
 
   return (
     <div
