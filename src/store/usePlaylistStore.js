@@ -70,29 +70,27 @@ export const usePlaylistStore = create((set, get) => ({
     }
   },
 
-  editPlaylistDetails: async (reqBody) => {
+  editPlaylistDetails: async (reqBody, isRoom = false) => {
     try {
       const res = await axiosInstance.post("/playlist/edit-playlist", reqBody);
       const updatedPlaylist = res.data.data;
       const editedPlaylistId = updatedPlaylist.id;
 
       set((state) => {
-        const playlists = [...state.playlists];
+        const listKey = isRoom ? "roomPlaylists" : "playlists";
+        const playlists = [...state[listKey]];
 
         const index = playlists.findIndex((p) => p.id === editedPlaylistId);
-
-        if (index !== -1) {
-          playlists.splice(index, 1);
-        }
+        if (index !== -1) playlists.splice(index, 1);
 
         return {
-          playlists: [updatedPlaylist, ...playlists],
+          [listKey]: [updatedPlaylist, ...playlists],
         };
       });
 
       toast.success("Playlist updated!");
     } catch (error) {
-      console.log("Error editing playlist details", error);
+      console.error("Error editing playlist details", error);
       toast.error("Error editing playlist details");
     } finally {
       set({ playlist: null });

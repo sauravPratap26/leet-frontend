@@ -82,7 +82,7 @@ const RoomPlayliist = () => {
   };
 
   const onEdit = async (data) => {
-    await editPlaylistDetails(data);
+    await editPlaylistDetails(data,true);
     editReset();
     setEditModalOpen(false);
   };

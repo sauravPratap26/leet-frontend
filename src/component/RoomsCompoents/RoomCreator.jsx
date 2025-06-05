@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import RoomCard from "./RoomCard";
 import { useRoomsStore } from "../../store/useRoomStore";
 import { Loader } from "lucide-react";
@@ -16,6 +16,8 @@ const RoomCreator = ({
   register,
 }) => {
   const { loadingRoom } = useRoomsStore();
+  const [helpModalOpen, setHelpModalOpen] = useState(false);
+
   if (loadingRoom) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -38,9 +40,14 @@ const RoomCreator = ({
           </div>
         ) : (
           <div className="p-6 overflow-auto">
-            {/* Create Room button at top if rooms exist */}
             {userCreatedRooms?.length > 0 && (
-              <div className="flex justify-end mb-4">
+              <div className="flex justify-end items-center mb-4 gap-2">
+                <button
+                  className="btn btn-outline btn-sm"
+                  onClick={() => setHelpModalOpen(true)}
+                >
+                  Help
+                </button>
                 <button
                   className="btn btn-primary"
                   onClick={() => setModalOpen(true)}
@@ -73,6 +80,46 @@ const RoomCreator = ({
           </div>
         )}
       </div>
+      {helpModalOpen && (
+        <div className="modal modal-open" role="dialog">
+          <div className="modal-box max-w-2xl">
+            <h3 className="font-bold text-xl text-primary mb-4">
+              How to Use Rooms
+            </h3>
+            <div className="space-y-3 text-base-content text-sm">
+              <p>
+                <strong>1.</strong> Rooms act as digital classrooms to share
+                playlists and problems.
+              </p>
+              <p>
+                <strong>2.</strong> After creating a room, you'll get a join
+                code. Even creators must use it to enter.
+              </p>
+              <p>
+                <strong>3.</strong> Only users with{" "}
+                <strong>Teacher access</strong> can manage playlists. Contact
+                your admin or support for access.
+              </p>
+              <p>
+                <strong>4.</strong> All members join as students by default and
+                can view room content.
+              </p>
+              <p>
+                <strong>5.</strong> We're working to improve the Rooms
+                experience with new features soon.
+              </p>
+              <p className="italic text-xs">
+                Questions? Reach out to our support — we're happy to assist.
+              </p>
+            </div>
+            <div className="modal-action">
+              <button className="btn" onClick={() => setHelpModalOpen(false)}>
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {modalOpen && (
         <dialog open className="modal modal-open">
