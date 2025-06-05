@@ -7,6 +7,7 @@ export const useRoomsStore = create((set, get) => ({
   userRooms: [],
   userCreatedRooms: [],
   loadingRooms: false,
+  roomMembers: [],
 
   getRoomDetail: (roomId) => {
     const roomDetail = get().userRooms.find(
@@ -190,6 +191,42 @@ export const useRoomsStore = create((set, get) => ({
     }
   },
 
+  getMembers: async (data) => {
+    try {
+      set({ loadingRooms: true });
+      const res = await axiosInstance.post("/rooms/get-members", data);
+      set({ roomMembers: res.data.data || [] });
+    } catch (error) {
+      console.log(error);
+
+      toast.error("Failed to get room members");
+    } finally {
+      set({ loadingRooms: false });
+    }
+  },
+
+  deleteMembers: async (data) => {
+    try {
+      set({ loadingRooms: true });
+      await axiosInstance.delete("/rooms/remove-member", {
+        data,
+      });
+      set((state) => {
+        const roomMembers = state.roomMembers.filter(
+          (member) => member.user.id !== data.studentId
+        );
+        return { roomMembers };
+      });
+      toast.success("Member removed");
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to remove room member");
+    } finally {
+      set({ loadingRooms: false });
+    }
+  },
+
+  //todo: future planning
   //   joinCreatorRoom: async(data) => {
   //     try {
   //         const res = await axiosInstance.post(`/rooms/join-room-creator`, data);
