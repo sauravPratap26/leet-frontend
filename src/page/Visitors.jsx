@@ -17,6 +17,7 @@ import { Editor } from "@monaco-editor/react";
 import VisitorsCharts from "../component/VisitorsCharts";
 import VisitorsEditors from "../component/VisitorsEditors";
 import { useState } from "react";
+import EnhancedSection from "../component/VisitorsCta";
 
 export default function Visitors() {
   const cardsDummyData = [
@@ -280,7 +281,7 @@ console.log(result); // Output: 2`}
       </div>
 
       {/* CTA Section */}
-      <section className="py-12 sm:py-20">
+      {/* <section className="py-12 sm:py-20">
         <div className="container mx-auto px-4 lg:px-6 text-center">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">
             Ready to Ditch Pen & Paper?
@@ -298,7 +299,8 @@ console.log(result); // Output: 2`}
             </button>
           </div>
         </div>
-      </section>
+      </section> */}
+      <EnhancedSection/>
 
       <footer className="footer footer-center p-4 bg-base-300 text-base-content border-t border-base-200">
         <div>
