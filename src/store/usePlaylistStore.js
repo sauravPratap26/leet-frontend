@@ -3,6 +3,7 @@ import { axiosInstance } from "../lib/axios";
 import { toast } from "react-hot-toast";
 export const usePlaylistStore = create((set, get) => ({
   playlists: [],
+  roomPlaylists: [],
   playlist: null,
   isPlaylistLoading: false,
   isPlaylistsLoading: false,
@@ -29,6 +30,19 @@ export const usePlaylistStore = create((set, get) => ({
     }
   },
 
+  getRoomPlaylists: async (data) => {
+    try {
+      set({ isPlaylistsLoading: true });
+      const res = await axiosInstance.post("/playlist/room", data);
+      set({ roomPlaylists: res.data.data });
+    } catch (error) {
+      console.log("Error getting all playlists of room", error);
+      toast.error("Error in getting playlists of room");
+    } finally {
+      set({ isPlaylistsLoading: false });
+    }
+  },
+
   addPlaylist: async (reqBody) => {
     try {
       set({ isPlaylistsLoading: true });
@@ -37,9 +51,17 @@ export const usePlaylistStore = create((set, get) => ({
         reqBody
       );
       const createdPlaylist = res.data.data;
-      set((state) => ({
-        playlists: [createdPlaylist, ...state.playlists],
-      }));
+      set((state) => {
+        if (reqBody?.roomId && reqBody.roomId !== "undefined") {
+          return {
+            roomPlaylists: [createdPlaylist, ...state.roomPlaylists],
+          };
+        } else {
+          return {
+            playlists: [createdPlaylist, ...state.playlists],
+          };
+        }
+      });
     } catch (error) {
       console.log("Error creating playlist", error);
       toast.error("Error creating playlist");
@@ -113,15 +135,20 @@ export const usePlaylistStore = create((set, get) => ({
     }
   },
 
-  getPlaylistQuestions: async (playListId) => {
+  getPlaylistQuestions: async (playListId, roomId) => {
     try {
       const id = playListId;
+      let res;
       set({ isPlaylistLoading: true });
-      const res = await axiosInstance.get(`/playlist/${id}`);
+      if (!roomId) {
+        res = await axiosInstance.get(`/playlist/${id}/`);
+      } else if (roomId) {
+        res = await axiosInstance.get(`/playlist/${id}/${roomId}`);
+      }
       set({ playlistQuestions: res.data.data });
     } catch (error) {
-      console.log("Error adding question to playlist", error);
-      toast.error("Error adding question to playlist");
+      console.log("Error getting playlist question", error);
+      toast.error("Error getting playlist question");
     } finally {
       set({ isPlaylistLoading: false });
     }

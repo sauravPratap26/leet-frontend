@@ -9,14 +9,17 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import ProblemTile from "../component/ProblemComponents/ProblemTileComponent";
 import useSearchHook from "../hooks/useSearchHook";
 import PlaylistAnalytics from "../component/PlaylistAnalytics";
+import { useRoomsStore } from "../store/useRoomStore";
+import CreateProblemForm from "../component/CreateProblemForm";
 
 const Playlist = () => {
-  const { playlistId } = useParams();
-  const { playlistQuestions, getPlaylistQuestions, isPlaylistLoading } =
+  const { playlistId, roomId } = useParams();
+  const { getPlaylistQuestions, isPlaylistLoading, playlist } =
     usePlaylistStore();
+  const { roomMember } = useRoomsStore();
   useEffect(() => {
-    getPlaylistQuestions(playlistId);
-  }, []);
+    getPlaylistQuestions(playlistId, roomId);
+  }, [getPlaylistQuestions, playlistId, roomId]);
 
   const [activeTab, setActiveTab] = useState("problems");
   const originalQuestions = usePlaylistStore(
@@ -24,8 +27,7 @@ const Playlist = () => {
   );
 
   const total = originalQuestions.length;
-  const solved = originalQuestions.filter((q) => q.solvedBy.length > 0).length;
-  console.log({ total, solved });
+  const solved = originalQuestions.filter((q) => q.solvedBy?.length > 0).length;
   const [searchText, setSearchText] = useState("");
   const [tagText, setTagText] = useState("");
   const [difficulty, setDifficulty] = useState("All");
@@ -40,7 +42,9 @@ const Playlist = () => {
       sortOrder
     );
   }, [originalQuestions, searchText, tagText, difficulty, sortOrder]);
-
+  const addQuestionThroughPlaylist =
+    roomMember?.role === "TEACHER" && playlist?.roomId;
+    console.log(playlist)
   return (
     <div
       className="flex h-screen bg-base-100 scrollbar-hide"
@@ -49,14 +53,16 @@ const Playlist = () => {
       <SideBar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        type={"playlistTitle"}
+        type={
+          addQuestionThroughPlaylist ? "roomPlaylistTitle" : "playlistTitle"
+        }
       />
 
       <div className="flex-1 flex flex-col overflow-hidden bg-base-100">
         <div className="p-4 border-b border-base-300 bg-base-100">
           <HeadingComponent activeTab={activeTab} authUser={null} />
 
-          {!["analytics", "settings"].includes(activeTab) && (
+          {!["analytics", "settings", "roomQuestions"].includes(activeTab) && (
             <SearchComponent
               searchText={searchText}
               setSearchText={setSearchText}
@@ -70,7 +76,7 @@ const Playlist = () => {
           )}
         </div>
 
-        {activeTab != "analytics" ? (
+        {activeTab != "analytics" && activeTab != "roomQuestions" ? (
           <div className="flex-1 overflow-auto">
             {filteredQuestions.length === 0 && !isPlaylistLoading ? (
               <div className="flex items-center justify-center h-full">
@@ -101,8 +107,12 @@ const Playlist = () => {
               </AutoSizer>
             )}
           </div>
-        ) : (
+        ) : activeTab !== "roomQuestions" ? (
           <PlaylistAnalytics total={total} solved={solved} />
+        ) : (
+          <div className="overflow-y-auto max-w-[100%]">
+            <CreateProblemForm questionForRoom={roomId} playlistId={playlistId} />
+          </div>
         )}
       </div>
     </div>

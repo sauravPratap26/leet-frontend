@@ -20,7 +20,7 @@ const ProblemTile = ({ problem, style, type, activeTab }) => {
   );
   let isSolved = false;
   if (type == "playlistTile") {
-    isSolved = problem.solvedBy.length > 0;
+    isSolved = problem.solvedBy?.length > 0;
   }
   const navigate = useNavigate();
   const { playlists, addProblemToPlaylist, deletePlaylistQuestions } =

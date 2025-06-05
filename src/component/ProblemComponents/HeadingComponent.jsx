@@ -9,6 +9,9 @@ import {
   TagsIcon,
   PlusSquareIcon,
   WorkflowIcon,
+  RocketIcon,
+  HomeIcon,
+  FileQuestionIcon,
 } from "lucide-react";
 const HeadingComponent = ({ activeTab, authUser }) => {
   return (
@@ -23,6 +26,10 @@ const HeadingComponent = ({ activeTab, authUser }) => {
       {activeTab === "analytics" && <ChartBar size={24} />}
       {activeTab === "settings" && <Settings size={24} />}
       {activeTab === "tags" && <TagsIcon size={24} />}
+      {activeTab === "createRooms" && <RocketIcon size={24} />}
+      {activeTab === "viewRooms" && <HomeIcon size={24} />}
+      {activeTab === "roomQuestions" && <FileQuestionIcon size={24} />}
+      
       {authUser?.role === "ADMIN" && activeTab === "add" && (
         <PlusSquareIcon size={24} />
       )}
@@ -41,6 +48,9 @@ const HeadingComponent = ({ activeTab, authUser }) => {
       {authUser?.role === "ADMIN" && activeTab === "add" && "Add Problem"}
       {/* {authUser.role === "ADMIN" && activeTab === "update" && "Update Problem"} */}
       {activeTab === "tags" && "Tags"}
+      {activeTab === "createRooms" && "Create Room"}
+      {activeTab === "viewRooms" && "My Rooms"}
+      {activeTab === "roomQuestions" && "Create Playlist Questions"}
     </h1>
   );
 };
