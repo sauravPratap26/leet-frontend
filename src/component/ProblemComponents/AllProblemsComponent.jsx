@@ -77,13 +77,6 @@ const AllProblemsComponent = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [all, searchText, tagText, difficulty, sortOrder]);
 
-  if (isProblemsLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <Loader className="size-10 animate-spin" />
-      </div>
-    );
-  }
   return (
     <div
       className="flex h-screen bg-base-100 scrollbar-hide"
@@ -135,6 +128,7 @@ const AllProblemsComponent = () => {
                         problem={filteredProblems[index]}
                         style={style}
                         activeTab={activeTab}
+                        problemLoading = {isProblemsLoading}
                       />
                     )}
                   </List>

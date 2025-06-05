@@ -10,11 +10,19 @@ import {
   SquareCheck,
   CheckIcon,
   Minus,
+  Loader,
 } from "lucide-react";
 import { usePlaylistStore } from "../../store/usePlaylistStore";
 import { useProblemStore } from "../../store/useProblemStore";
 
-const ProblemTile = ({ problem, style, type, activeTab }) => {
+const ProblemTile = ({
+  problem,
+  style,
+  type,
+  activeTab,
+  isProblemsLoading = false,
+}) => {
+  console.log(activeTab);
   let playlistHavingProblem = problem?.problemsPlaylists?.map(
     (playlist) => playlist.playListId
   );
@@ -67,6 +75,13 @@ const ProblemTile = ({ problem, style, type, activeTab }) => {
 
   const decideIsSolved =
     (isSolved && type === "playlistTile") || problem?.isSolved;
+  if (isProblemsLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Loader className="size-10 animate-spin" />
+      </div>
+    );
+  }
   return (
     <div
       onClick={handleTileClick}
