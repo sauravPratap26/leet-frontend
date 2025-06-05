@@ -23,7 +23,6 @@ const ProblemTile = ({
   activeTab,
   isProblemsLoading = false,
 }) => {
-  console.log(activeTab);
   const [showPlaylistPopup, setShowPlaylistPopup] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [addPlaylistPopup, setAddPlaylistPopup] = useState(false);

@@ -185,4 +185,17 @@ export const usePlaylistStore = create((set, get) => ({
       set({ isPlaylistLoading: false });
     }
   },
+
+  getBasicPlaylistDetails: async (id, roomId) => {
+    try {
+      set({ isPlaylistLoading: true });
+      const res = await axiosInstance.get(`/playlist/basic-room-playlist/${id}/${roomId}`);
+      set({ playlist: res.data.data });
+    } catch (error) {
+      console.log("Error getting playlist ", error);
+      toast.error("Error getting playlist");
+    } finally {
+      set({ isPlaylistLoading: false });
+    }
+  },
 }));

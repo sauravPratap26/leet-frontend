@@ -14,10 +14,19 @@ import CreateProblemForm from "../component/CreateProblemForm";
 
 const Playlist = () => {
   const { playlistId, roomId } = useParams();
-  const { getPlaylistQuestions, isPlaylistLoading, playlist } =
-    usePlaylistStore();
-  const { roomMember } = useRoomsStore();
+  const {
+    getPlaylistQuestions,
+    isPlaylistLoading,
+    playlist,
+    getBasicPlaylistDetails,
+  } = usePlaylistStore();
+  const { roomMember, getRoomMemberDetails } = useRoomsStore();
   useEffect(() => {
+    if (roomId) {
+      getBasicPlaylistDetails(playlistId, roomId);
+      getRoomMemberDetails(roomId);
+    }
+
     getPlaylistQuestions(playlistId, roomId);
   }, [getPlaylistQuestions, playlistId, roomId]);
 
@@ -41,10 +50,17 @@ const Playlist = () => {
       difficulty,
       sortOrder
     );
-  }, [originalQuestions, searchText, tagText, difficulty, sortOrder]);
+  }, [
+    questionSearch,
+    originalQuestions,
+    searchText,
+    tagText,
+    difficulty,
+    sortOrder,
+  ]);
   const addQuestionThroughPlaylist =
-    roomMember?.role === "TEACHER" && playlist?.roomId;
-    console.log(playlist)
+    roomMember?.role === "TEACHER" && playlist?.roomId != undefined;
+
   return (
     <div
       className="flex h-screen bg-base-100 scrollbar-hide"
@@ -111,7 +127,10 @@ const Playlist = () => {
           <PlaylistAnalytics total={total} solved={solved} />
         ) : (
           <div className="overflow-y-auto max-w-[100%]">
-            <CreateProblemForm questionForRoom={roomId} playlistId={playlistId} />
+            <CreateProblemForm
+              questionForRoom={roomId}
+              playlistId={playlistId}
+            />
           </div>
         )}
       </div>
