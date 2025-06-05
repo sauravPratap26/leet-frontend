@@ -16,6 +16,20 @@ export const useProblemStore = create((set) => ({
     set({ justClosedPopup: boolValue });
   },
 
+deleteProblem: async (id) => {
+  try {
+    await axiosInstance.delete(`/problem/delete-problem/${id}`);
+    set((state) => ({
+      createdProblems: state.createdProblems.filter(problem => problem.id !== id)
+    }));
+  } catch (error) {
+    console.log("Error deleting problem", error);
+    toast.error("Error deleting problem");
+  } finally {
+    set({ isProblemsLoading: false });
+  }
+},
+
   getAllProblems: async () => {
     try {
       set({ isProblemsLoading: true });

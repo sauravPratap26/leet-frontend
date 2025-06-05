@@ -11,6 +11,7 @@ import {
   CheckIcon,
   Minus,
   Loader,
+  Settings,
 } from "lucide-react";
 import { usePlaylistStore } from "../../store/usePlaylistStore";
 import { useProblemStore } from "../../store/useProblemStore";
@@ -23,6 +24,9 @@ const ProblemTile = ({
   isProblemsLoading = false,
 }) => {
   console.log(activeTab);
+  const [showPlaylistPopup, setShowPlaylistPopup] = useState(false);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [addPlaylistPopup, setAddPlaylistPopup] = useState(false);
   let playlistHavingProblem = problem?.problemsPlaylists?.map(
     (playlist) => playlist.playListId
   );
@@ -37,6 +41,7 @@ const ProblemTile = ({
     getPlaylistProblemsByUser,
     setJustClosedPopup,
     problemAddedInPlaylist,
+    deleteProblem,
   } = useProblemStore();
   const [showPopup, setShowPopup] = useState(false);
   const popupRef = useRef(null);
@@ -55,19 +60,33 @@ const ProblemTile = ({
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setAddPlaylistPopup(false);
         setShowPopup(false);
+        setShowPlaylistPopup(false);
+        setShowConfirmationModal(false);
         setJustClosedPopup(true);
       }
     };
 
-    if (showPopup) {
+    if (
+      showPopup ||
+      showPlaylistPopup ||
+      addPlaylistPopup ||
+      showConfirmationModal
+    ) {
       document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [setJustClosedPopup, showPopup]);
+  }, [
+    addPlaylistPopup,
+    setJustClosedPopup,
+    showConfirmationModal,
+    showPlaylistPopup,
+    showPopup,
+  ]);
 
   const removeFromPlaylist = (problemsIds) => {
     deletePlaylistQuestions([problemsIds]);
@@ -141,9 +160,9 @@ const ProblemTile = ({
             )}
           </div>
 
-          {type == "playlistTile" ? (
+          {type === "playlistTile" ? (
             <button
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-red-500 hover:bg-red-600 hover:text-white text-white text-xs font-medium rounded-lg border border-red-500 hover:border-red-600 transition-all duration-200 shadow-sm hover:shadow-md backdrop-blur-sm z-30 shrink-0"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-red-500 hover:bg-red-600 text-white text-xs font-medium rounded-lg"
               onClick={(e) => {
                 e.stopPropagation();
                 removeFromPlaylist(problem.id);
@@ -152,12 +171,61 @@ const ProblemTile = ({
               <Minus size={12} />
               Remove from Playlist
             </button>
+          ) : activeTab === "created" ? (
+            <div className="relative z-30">
+              <button
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-base-200 hover:bg-base-300 text-xs font-medium rounded-lg"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowPopup(!showPopup);
+                }}
+              >
+                <Settings size={12} />
+                Options
+              </button>
+
+              {showPopup && (
+                <div
+                  ref={popupRef}
+                  className="absolute right-0 mt-2 w-52 bg-base-100 shadow-2xl rounded-xl border border-base-300 z-50 p-3"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div
+                    onClick={() => {
+                      setShowPopup(false);
+                      setShowPlaylistPopup(true);
+                    }}
+                    className="cursor-pointer text-sm hover:text-primary hover:bg-primary/10 px-3 py-2 rounded-lg"
+                  >
+                    ➕ Add to Playlist
+                  </div>
+                  {/* <div
+                    onClick={() => {
+                      
+                      setShowPopup(false);
+                    }}
+                    className="cursor-pointer text-sm hover:text-warning hover:bg-warning/10 px-3 py-2 rounded-lg"
+                  >
+                    ✏️ Edit Question
+                  </div> */}
+                  <div
+                    onClick={() => {
+                      setShowConfirmationModal(true);
+                      setShowPopup(false);
+                    }}
+                    className="cursor-pointer text-sm hover:text-error hover:bg-error/10 px-3 py-2 rounded-lg"
+                  >
+                    🗑️ Delete Question
+                  </div>
+                </div>
+              )}
+            </div>
           ) : (
             <button
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-base-200 hover:bg-primary hover:text-primary-content text-base-content text-xs font-medium rounded-lg border border-base-300 hover:border-primary transition-all duration-200 shadow-sm hover:shadow-md backdrop-blur-sm z-30 shrink-0"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-base-200 hover:bg-primary hover:text-white text-xs font-medium rounded-lg"
               onClick={(e) => {
                 e.stopPropagation();
-                setShowPopup(!showPopup);
+                setAddPlaylistPopup(true);
               }}
             >
               <Plus size={12} />
@@ -190,7 +258,7 @@ const ProblemTile = ({
         </div>
       </div>
 
-      {showPopup && (
+      {addPlaylistPopup && (
         <>
           <div
             className="fixed inset-0 z-[999999]"
@@ -235,6 +303,84 @@ const ProblemTile = ({
             )}
           </div>
         </>
+      )}
+      {showPlaylistPopup && (
+        <>
+          <div
+            className="fixed inset-0 z-[999999]"
+            onClick={(e) => e.stopPropagation()}
+          />
+          <div
+            ref={popupRef}
+            className="fixed top-16 right-4 bg-base-100 backdrop-blur-md shadow-2xl rounded-xl border border-base-300 z-[999999] p-3 w-52 animate-in slide-in-from-top-2 fade-in-0 duration-200"
+            style={{
+              position: "fixed",
+              top: `${style?.top ? parseInt(style.top) + 60 : 60}px`,
+              right: "20px",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="text-sm font-semibold mb-3 text-base-content border-b border-base-300 pb-2">
+              Select Playlist
+            </div>
+            {playlists.length === 0 ? (
+              <div className="text-xs text-base-content/60 py-2 text-center">
+                No playlists available
+              </div>
+            ) : playlists.length == playlistHavingProblem.length ? (
+              <div className="text-xs text-base-content/60 py-2 text-center">
+                Already available in all playlists
+              </div>
+            ) : (
+              <div className="space-y-1">
+                {playlists.map(
+                  (playlist) =>
+                    !playlistHavingProblem.includes(playlist.id) && (
+                      <div
+                        key={playlist.id}
+                        onClick={() => handleAddClick(playlist.id)}
+                        className="cursor-pointer text-sm text-base-content hover:text-primary hover:bg-primary/10 px-3 py-2 rounded-lg transition-all duration-150 font-medium border border-transparent hover:border-primary/20"
+                      >
+                        {playlist.name}
+                      </div>
+                    )
+                )}
+              </div>
+            )}
+          </div>
+        </>
+      )}
+      {showConfirmationModal && (
+        <div
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[9999] flex items-center justify-center"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="bg-base-100 rounded-xl border border-base-300 p-6 w-80 shadow-xl">
+            <h2 className="text-base font-semibold mb-4 text-error">
+              Delete Question
+            </h2>
+            <p className="text-sm text-base-content/80 mb-4">
+              Are you sure you want to delete <strong>{problem.title}</strong>?
+            </p>
+            <div className="flex justify-end gap-3">
+              <button
+                className="px-4 py-1.5 rounded-md border border-base-300 text-sm"
+                onClick={() => setShowConfirmationModal(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-1.5 bg-error text-error-content rounded-md text-sm font-medium"
+                onClick={() => {
+                  deleteProblem(problem.id);
+                  setShowConfirmationModal(false);
+                }}
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       <div
