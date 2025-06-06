@@ -7,6 +7,7 @@ import { z } from "zod";
 import CodeBackground from "../component/AuthImagePattern";
 import "../global.css";
 import { useAuthStore } from "../store/useAuthStore";
+import Logo from "../../public/assets/paperlessCodeBig";
 const SignUpSchema = z.object({
   email: z.string().email("Enter a valid email"),
   password: z
@@ -50,9 +51,10 @@ const SignUpPage = () => {
           {/* Logo & Header */}
           <div className="text-center mb-8">
             <div className="flex flex-col items-center gap-2">
-              <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 transition-all duration-300 hover:bg-primary/20 hover:rotate-6 hover:scale-105">
-                <Code className="w-8 h-8 text-primary" />
-              </div>
+              {/* <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 transition-all duration-300 hover:bg-primary/20 hover:rotate-6 hover:scale-105"> */}
+                {/* <Code className="w-8 h-8 text-primary" /> */}
+                <Logo width={150} height={60} />
+              {/* </div> */}
               <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-cyan-400">
                 Create Your Account
               </h1>

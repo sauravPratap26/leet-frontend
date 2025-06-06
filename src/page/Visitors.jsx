@@ -18,6 +18,7 @@ import VisitorsCharts from "../component/VisitorsCharts";
 import VisitorsEditors from "../component/VisitorsEditors";
 import { useState } from "react";
 import EnhancedSection from "../component/VisitorsCta";
+import Logo from "../../public/assets/paperlessCodeBig";
 
 export default function Visitors() {
   const cardsDummyData = [
@@ -102,7 +103,8 @@ export default function Visitors() {
       <header className="sticky top-0 z-50 border-b border-base-200 bg-base-300/95 backdrop-blur supports-[backdrop-filter]:bg-base-300/60">
         <div className="container mx-auto px-4 lg:px-6 h-14 sm:h-16 flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <Code className="h-6 w-6 sm:h-8 sm:w-8 text-primary" />
+            {/* <Code className="h-6 w-6 sm:h-8 sm:w-8 text-primary" /> */}
+            <Logo width={150} height={60} />
             <span className="text-lg sm:text-xl font-bold">Paperless Code</span>
           </div>
           <div className="flex gap-2 sm:gap-4">
