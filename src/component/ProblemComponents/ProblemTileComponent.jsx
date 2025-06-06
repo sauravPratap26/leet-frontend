@@ -162,16 +162,30 @@ const ProblemTile = ({
 
           {type === "playlistTile" ||
           (type === "roomPlaylistTile" && isTeacher) ? (
-            <button
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-red-500 hover:bg-red-600 text-white text-xs font-medium rounded-lg"
-              onClick={(e) => {
-                e.stopPropagation();
-                removeFromPlaylist(problem.id);
-              }}
-            >
-              <Minus size={12} />
-              Remove from Playlist
-            </button>
+            <>
+              {isTeacher && type != "playlistTile" && (
+                <button
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-yellow-500 hover:bg-yellow-600 text-black text-xs font-medium rounded-lg"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/edit/roomProblem/${problem.id}`);
+                  }}
+                >
+                  <Minus size={12} />
+                  Edit Problem
+                </button>
+              )}
+              <button
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-red-500 hover:bg-red-600 text-white text-xs font-medium rounded-lg"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  removeFromPlaylist(problem.id);
+                }}
+              >
+                <Minus size={12} />
+                Remove from Playlist
+              </button>
+            </>
           ) : activeTab === "created" ? (
             <div className="relative z-30">
               <button

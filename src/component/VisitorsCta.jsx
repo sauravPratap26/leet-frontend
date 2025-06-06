@@ -60,7 +60,7 @@ export default function EnhancedSection() {
             Choose Your Path to Success
           </h2>
           <p className="text-lg sm:text-xl text-base-content/70 max-w-3xl mx-auto">
-            Discover how Paperless Code is not a Code Execution Platform
+            Discover how Paperless Code enhances your coding experience.
           </p>
         </div>
 

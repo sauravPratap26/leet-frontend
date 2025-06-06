@@ -141,7 +141,7 @@ const CreateProblemBasicInfo = ({ register, control, errors }) => {
               }}
               classNamePrefix="react-select"
               value={languageOptions.filter((opt) =>
-                field.value.includes(opt.value)
+                field?.value?.includes(opt.value)
               )}
               onChange={(selectedOptions) => {
                 field.onChange(selectedOptions.map((opt) => opt.value));

@@ -19,6 +19,7 @@ import Visitors from "./page/Visitors";
 import Playlist from "./page/Playlist";
 import RoomsPage from "./page/RoomsPage";
 import RoomPlayliist from "./component/RoomsCompoents/RoomPlayliist";
+import EditProblemForm from "./component/RoomsCompoents/RoomEditProblem";
 
 const App = () => {
   const { isCheckingAuth, authUser, checkAuth } = useAuthStore();
@@ -95,6 +96,10 @@ const App = () => {
           <Route
             path="/room/:id"
             element={authUser ? <RoomPlayliist /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/edit/roomProblem/:id"
+            element={authUser ? <EditProblemForm/> : <Navigate to="/login" />}
           />
         </Route>
       </Routes>

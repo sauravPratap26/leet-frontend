@@ -58,8 +58,8 @@ deleteProblem: async (id) => {
 
       toast.success(res.data.message);
     } catch (error) {
-      console.log("Error getting all problems", error);
-      toast.error("Error in getting problems");
+      console.log("Error getting problem", error);
+      toast.error("Error in getting problem");
     } finally {
       set({ isProblemLoading: false });
     }
@@ -110,7 +110,6 @@ deleteProblem: async (id) => {
     activeTab
   ) => {
     try {
-      console.log(problemId, playlistId, playlistName);
       let keyToSet = "";
       if (activeTab == "created") {
         keyToSet = "createdProblems";
