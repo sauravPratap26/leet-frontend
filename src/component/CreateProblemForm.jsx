@@ -26,7 +26,7 @@ import CreateProblemActions from "./CreateProblemActions";
 import CreateProblemTestCases from "./CreateProblemTestCases";
 import CreateProblemEditor from "./CreateProblemEditor";
 import CreateProblemAdditional from "./CreateProblemAdditional";
-
+import { usePlaylistStore } from "../store/usePlaylistStore";
 
 const CreateProblemForm = ({ questionForRoom = null, playlistId = null }) => {
   const {
@@ -79,6 +79,7 @@ const CreateProblemForm = ({ questionForRoom = null, playlistId = null }) => {
     name: "tags",
   });
 
+  const { getPlaylistQuestions } = usePlaylistStore();
   const [isLoading, setIsLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [errorData, setErrorData] = useState(null);
@@ -130,6 +131,7 @@ const CreateProblemForm = ({ questionForRoom = null, playlistId = null }) => {
           roomId: questionForRoom,
           playlistId,
         });
+        getPlaylistQuestions(playlistId, questionForRoom);
       } else {
         res = await axiosInstance.post("/problem/create-problem", value);
       }
