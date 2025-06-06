@@ -22,6 +22,7 @@ const ProblemTile = ({
   type,
   activeTab,
   isProblemsLoading = false,
+  isTeacher = false,
 }) => {
   const [showPlaylistPopup, setShowPlaylistPopup] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
@@ -159,7 +160,8 @@ const ProblemTile = ({
             )}
           </div>
 
-          {type === "playlistTile" ? (
+          {type === "playlistTile" ||
+          (type === "roomPlaylistTile" && isTeacher) ? (
             <button
               className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-red-500 hover:bg-red-600 text-white text-xs font-medium rounded-lg"
               onClick={(e) => {
@@ -198,15 +200,19 @@ const ProblemTile = ({
                   >
                     ➕ Add to Playlist
                   </div>
-                  {/* <div
-                    onClick={() => {
-                      
-                      setShowPopup(false);
-                    }}
-                    className="cursor-pointer text-sm hover:text-warning hover:bg-warning/10 px-3 py-2 rounded-lg"
-                  >
-                    ✏️ Edit Question
-                  </div> */}
+
+                  {/* Uncomment if Edit Question is needed later
+        <div
+          onClick={() => {
+            setShowPopup(false);
+            // openEditModal(problem.id)
+          }}
+          className="cursor-pointer text-sm hover:text-warning hover:bg-warning/10 px-3 py-2 rounded-lg"
+        >
+          ✏️ Edit Question
+        </div>
+        */}
+
                   <div
                     onClick={() => {
                       setShowConfirmationModal(true);
@@ -219,7 +225,7 @@ const ProblemTile = ({
                 </div>
               )}
             </div>
-          ) : (
+          ) : type != "roomPlaylistTile" ? (
             <button
               className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-base-200 hover:bg-primary hover:text-white text-xs font-medium rounded-lg"
               onClick={(e) => {
@@ -230,7 +236,7 @@ const ProblemTile = ({
               <Plus size={12} />
               Add to Playlist
             </button>
-          )}
+          ) : null}
         </div>
 
         <div className="text-sm text-base-content/70 leading-relaxed mb-4 font-medium">

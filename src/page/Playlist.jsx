@@ -114,7 +114,12 @@ const Playlist = () => {
                           problem={filteredQuestions[index]}
                           style={style}
                           activeTab={activeTab}
-                          type={"playlistTile"}
+                          type={
+                            playlist?.roomId != undefined
+                              ? "roomPlaylistTile"
+                              : "playlistTile"
+                          }
+                          isTeacher={roomMember?.role === "TEACHER"}
                         />
                       );
                     }}
