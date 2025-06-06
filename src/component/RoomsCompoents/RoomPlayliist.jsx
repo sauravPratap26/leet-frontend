@@ -17,7 +17,7 @@ const RoomPlayliist = () => {
     getRoomMemberDetails,
     roomMember,
     getRoomDetail,
-    loadingRoom,
+    loadingRooms,
     getMembers,
     deleteMembers,
     roomMembers,
@@ -41,11 +41,11 @@ const RoomPlayliist = () => {
     if (isTeacher) {
       getMembers(id);
     }
-    getRoomMemberDetails(id);
+    
     getRoomPlaylists({ id });
   }, [getMembers, getRoomMemberDetails, getRoomPlaylists, id, isTeacher]);
 
-  if (loadingRoom) {
+  if (loadingRooms) {
     return (
       <div className="flex items-center justify-center h-screen">
         <Loader className="size-10 animate-spin" />

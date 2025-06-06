@@ -194,7 +194,7 @@ export const useRoomsStore = create((set, get) => ({
   getMembers: async (data) => {
     try {
       set({ loadingRooms: true });
-      const res = await axiosInstance.post("/rooms/get-members", data);
+      const res = await axiosInstance.post("/rooms/get-members", {id:data});
       set({ roomMembers: res.data.data || [] });
     } catch (error) {
       console.log(error);

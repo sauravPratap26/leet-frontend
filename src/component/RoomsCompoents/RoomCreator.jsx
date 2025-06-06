@@ -15,10 +15,10 @@ const RoomCreator = ({
   isSubmitting,
   register,
 }) => {
-  const { loadingRoom } = useRoomsStore();
+  const { loadingRooms } = useRoomsStore();
   const [helpModalOpen, setHelpModalOpen] = useState(false);
 
-  if (loadingRoom) {
+  if (loadingRooms) {
     return (
       <div className="flex items-center justify-center h-screen">
         <Loader className="size-10 animate-spin" />

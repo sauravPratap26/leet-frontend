@@ -12,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRoomsStore } from "../../store/useRoomStore";
 import { createRoomSchema } from "../../schema/createRoomSchema";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const RoomCard = ({ room, type }) => {
   const navigate = useNavigate();
@@ -20,7 +21,8 @@ const RoomCard = ({ room, type }) => {
     regenerateRoomCode,
     updateRoom,
     openCloseRoom,
-    loadingRoom,
+    loadingRooms,
+    getRoomMemberDetails,
   } = useRoomsStore();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
@@ -50,9 +52,16 @@ const RoomCard = ({ room, type }) => {
     deleteRoom({ id: room.id });
   };
 
-  const handleOpen = () => {
+  const handleOpen = async () => {
+  try {
+    await getRoomMemberDetails(room.id);
     navigate(`/room/${room.id}`);
-  };
+  } catch (error) {
+    console.log(error)
+    toast.error("Failed to get room details");
+  }
+};
+
 
   const handleToggle = (event) => {
     const isChecked = event.target.checked;
@@ -60,7 +69,7 @@ const RoomCard = ({ room, type }) => {
     openCloseRoom({ isOpen: isChecked, id: room.id });
   };
 
-  if (loadingRoom) {
+  if (loadingRooms) {
     return (
       <div className="flex items-center justify-center h-screen">
         <Loader className="size-10 animate-spin" />
