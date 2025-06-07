@@ -45,14 +45,6 @@ const RoomPlayliist = () => {
     getRoomPlaylists({ id });
   }, [getMembers, getRoomMemberDetails, getRoomPlaylists, id, isTeacher]);
 
-  if (loadingRooms) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <Loader className="size-10 animate-spin" />
-      </div>
-    );
-  }
-
   return (
     <div
       className="flex h-screen bg-base-100 scrollbar-hide"
@@ -64,12 +56,17 @@ const RoomPlayliist = () => {
         activeTab={activeTab}
         conditional={isTeacher}
       />
+
       <div className="flex-1 flex flex-col overflow-hidden bg-base-100">
         <div className="p-4 border-b border-base-300 bg-base-100">
           <HeadingComponent activeTab={activeTab} authUser={null} />
         </div>
 
-        {activeTab === "roomPlaylists" ? (
+        {loadingRooms ? (
+          <div className="flex items-center justify-center h-full">
+            <Loader className="size-10 animate-spin" />
+          </div>
+        ) : activeTab === "roomPlaylists" ? (
           <RoomPlaylistTab
             id={id}
             roomPlaylists={roomPlaylists}

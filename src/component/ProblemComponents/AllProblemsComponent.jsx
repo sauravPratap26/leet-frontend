@@ -33,7 +33,7 @@ const AllProblemsComponent = () => {
     getPlaylistProblemsByUser,
     getCreatedProblemsByUser,
   } = useProblemStore();
-  const {getAllTags}= useTagsStore()
+  const { getAllTags } = useTagsStore();
 
   const { authUser } = useAuthStore();
 
@@ -44,14 +44,21 @@ const AllProblemsComponent = () => {
   useEffect(() => {
     if (activeTab === "global") {
       getAllProblems();
-      getAllTags()
+      getAllTags();
       // getSolvedProblemByUser();
     } else if (activeTab === "solved") {
       //todo
     } else if (activeTab === "created") {
       if (authUser.role === "ADMIN") getCreatedProblemsByUser();
     }
-  }, [activeTab, authUser.role, getAllProblems, getAllTags, getCreatedProblemsByUser, getSolvedProblemByUser]);
+  }, [
+    activeTab,
+    authUser.role,
+    getAllProblems,
+    getAllTags,
+    getCreatedProblemsByUser,
+    getSolvedProblemByUser,
+  ]);
   const { questionSearch } = useSearchHook();
 
   const selectQuestions = () => {
@@ -109,37 +116,44 @@ const AllProblemsComponent = () => {
         </div>
 
         {activeTab && activeTab !== "tags" ? (
-          <div className="flex-1 overflow-auto">
-            {filteredProblems.length === 0 && !isProblemsLoading ? (
-              <div className="flex items-center justify-center h-full">
-                <p className="text-base-content/50">No problems found</p>
-              </div>
-            ) : (
-              <AutoSizer>
-                {({ height, width }) => (
-                  <List
-                    height={height}
-                    itemCount={filteredProblems.length}
-                    itemSize={180}
-                    width={width}
-                  >
-                    {({ index, style }) => (
-                      <ProblemTile
-                        problem={filteredProblems[index]}
-                        style={style}
-                        activeTab={activeTab}
-                        problemLoading = {isProblemsLoading}
-                      />
-                    )}
-                  </List>
-                )}
-              </AutoSizer>
-            )}
-          </div>
+          isProblemsLoading ? (
+            <div className="flex items-center justify-center h-full">
+              <Loader className="size-10 animate-spin" />
+            </div>
+          ) : (
+            <div className="flex-1 overflow-auto">
+              {filteredProblems.length === 0 ? (
+                <div className="flex items-center justify-center h-full">
+                  <p className="text-base-content/50">No problems found</p>
+                </div>
+              ) : (
+                <AutoSizer>
+                  {({ height, width }) => (
+                    <List
+                      height={height}
+                      itemCount={filteredProblems.length}
+                      itemSize={180}
+                      width={width}
+                    >
+                      {({ index, style }) => (
+                        <ProblemTile
+                          problem={filteredProblems[index]}
+                          style={style}
+                          activeTab={activeTab}
+                          problemLoading={isProblemsLoading}
+                        />
+                      )}
+                    </List>
+                  )}
+                </AutoSizer>
+              )}
+            </div>
+          )
         ) : (
           <TagsCharts />
         )}
-        {activeTab && activeTab !== "tags" && activeTab == "add" && (
+
+        {activeTab && activeTab !== "tags" && activeTab === "add" && (
           <div className="overflow-y-auto max-w-[100%]">
             <CreateProblemForm />
           </div>

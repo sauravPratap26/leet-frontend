@@ -10,6 +10,7 @@ import { useRoomsStore } from "../../store/useRoomStore";
 import { createRoomSchema } from "../../schema/createRoomSchema";
 import RoomCreator from "./RoomCreator";
 import ViewRooms from "./ViewRooms";
+import { Loader } from "lucide-react";
 
 const Rooms = () => {
   const { authUser } = useAuthStore();
@@ -65,7 +66,11 @@ const Rooms = () => {
           <HeadingComponent activeTab={activeTab} authUser={authUser} />
         </div>
 
-        {activeTab === "createRooms" ? (
+        {loadingRooms ? (
+          <div className="flex items-center justify-center h-full">
+            <Loader className="size-10 animate-spin" />
+          </div>
+        ) : activeTab === "createRooms" ? (
           <RoomCreator
             authUser={authUser}
             userCreatedRooms={userCreatedRooms}
