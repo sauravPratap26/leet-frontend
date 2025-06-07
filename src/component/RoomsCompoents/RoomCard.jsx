@@ -53,15 +53,14 @@ const RoomCard = ({ room, type }) => {
   };
 
   const handleOpen = async () => {
-  try {
-    await getRoomMemberDetails(room.id);
-    navigate(`/room/${room.id}`);
-  } catch (error) {
-    console.log(error)
-    toast.error("Failed to get room details");
-  }
-};
-
+    try {
+      await getRoomMemberDetails(room.id);
+      navigate(`/room/${room.id}`);
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to get room details");
+    }
+  };
 
   const handleToggle = (event) => {
     const isChecked = event.target.checked;
@@ -69,6 +68,9 @@ const RoomCard = ({ room, type }) => {
     openCloseRoom({ isOpen: isChecked, id: room.id });
   };
 
+  const showRoomMembers = () => {
+    navigate(`/room/members/${room.id}`);
+  };
   if (loadingRooms) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -82,11 +84,6 @@ const RoomCard = ({ room, type }) => {
         <div>
           <h2 className="text-xl font-semibold">{room.name}</h2>
           <p className="text-sm text-base-content/80">{room.description}</p>
-          {type === "creator" && (
-            <p className="text-sm mt-2 text-primary font-mono">
-              Room Code: {room.code}
-            </p>
-          )}
         </div>
 
         {type === "creator" ? (
@@ -145,6 +142,20 @@ const RoomCard = ({ room, type }) => {
           </div>
         )}
       </div>
+
+      {type === "creator" && (
+        <div className="flex justify-between items-center w-full">
+          <p className="text-sm text-primary font-mono">
+            Room Code: {room.code}
+          </p>
+          <button
+            className="btn btn-sm btn-outline btn-accent"
+            onClick={showRoomMembers}
+          >
+            <LogIn size={16} /> Members
+          </button>
+        </div>
+      )}
 
       {/* Edit Modal */}
       {isEditModalOpen && (
