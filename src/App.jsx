@@ -20,6 +20,7 @@ import Playlist from "./page/Playlist";
 import RoomsPage from "./page/RoomsPage";
 import RoomPlayliist from "./component/RoomsCompoents/RoomPlayliist";
 import EditProblemForm from "./component/RoomsCompoents/RoomEditProblem";
+import AdminRoomMembers from "./component/RoomsCompoents/AdminRoomMembers";
 
 const App = () => {
   const { isCheckingAuth, authUser, checkAuth } = useAuthStore();
@@ -100,6 +101,10 @@ const App = () => {
           <Route
             path="/edit/roomProblem/:id"
             element={authUser ? <EditProblemForm/> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/room/members/:id"
+            element={authUser ? <AdminRoomMembers/> : <Navigate to="/login" />}
           />
         </Route>
       </Routes>

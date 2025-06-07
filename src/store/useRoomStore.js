@@ -194,7 +194,7 @@ export const useRoomsStore = create((set, get) => ({
   getMembers: async (data) => {
     try {
       set({ loadingRooms: true });
-      const res = await axiosInstance.post("/rooms/get-members", {id:data});
+      const res = await axiosInstance.post("/rooms/get-members", { id: data });
       set({ roomMembers: res.data.data || [] });
     } catch (error) {
       console.log(error);
@@ -221,6 +221,50 @@ export const useRoomsStore = create((set, get) => ({
     } catch (error) {
       console.log(error);
       toast.error("Failed to remove room member");
+    } finally {
+      set({ loadingRooms: false });
+    }
+  },
+
+  getMembersForAdmin: async (data) => {
+    try {
+      set({ loadingRooms: true });
+      const res = await axiosInstance.post("/rooms/get-members-admin", {
+        id: data,
+      });
+      set({ roomMembers: res.data.data || [] });
+    } catch (error) {
+      console.log(error);
+
+      toast.error("Failed to get room members");
+    } finally {
+      set({ loadingRooms: false });
+    }
+  },
+
+  changeMembersPermission: async (data) => {
+    try {
+      set({ loadingRooms: true });
+
+      const res = await axiosInstance.post("/rooms/update-member", data);
+      const updatedMember = res.data.data;
+
+      if (data.deleteMember) {
+        set((state) => ({
+          roomMembers: state.roomMembers.filter(
+            (member) => member.id !== updatedMember.id
+          ),
+        }));
+      } else {
+        set((state) => ({
+          roomMembers: state.roomMembers.map((member) =>
+            member.id === updatedMember.id ? updatedMember : member
+          ),
+        }));
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to update member details");
     } finally {
       set({ loadingRooms: false });
     }
