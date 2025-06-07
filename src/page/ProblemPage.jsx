@@ -21,7 +21,6 @@ import SolveProblemRightPanel from "../component/SolveProblemRightPanel";
 const ProblemPage = () => {
   const { id } = useParams();
   const { getProblemById, problem, isProblemLoading } = useProblemStore();
-
   const {
     submission: submissions,
     isLoading: isSubmissionsLoading,
@@ -29,26 +28,30 @@ const ProblemPage = () => {
     getSubmissionCountForProblem,
     submissionCount,
   } = useSubmissionStore();
+  const { executeCode, submission, isExecuting } = useExecutionStore();
+
+  const LanguageList =
+    problem?.languageSolutionArray?.length > 0
+      ? problem.languageSolutionArray
+      : ["JAVASCRIPT", "PYTHON", "JAVA"];
 
   const [code, setCode] = useState("");
   const [activeTab, setActiveTab] = useState("description");
   const [testcases, setTestCases] = useState([]);
-  const { executeCode, submission, isExecuting } = useExecutionStore();
-  const LanguageList =
-    problem?.languageSolutionArray?.length > 0
-      ? problem?.languageSolutionArray
-      : ["JAVASCRIPT", "PYTHON", "JAVA"];
+  const [selectedLanguage, setSelectedLanguage] = useState("JAVASCRIPT");
 
   useEffect(() => {
     getProblemById(id);
     getSubmissionCountForProblem(id);
   }, [getProblemById, getSubmissionCountForProblem, id]);
 
-  const [selectedLanguage, setSelectedLanguage] = useState(
-    problem?.languageSolutionArray?.length > 0
-      ? problem?.languageSolutionArray[0]
-      : "JAVASCRIPT"
-  );
+  useEffect(() => {
+    if (problem) {
+      const defaultLang = problem.languageSolutionArray?.[0] || "JAVASCRIPT";
+      setSelectedLanguage(defaultLang);
+    }
+  }, [problem]);
+
   useEffect(() => {
     if (problem) {
       setCode(
@@ -121,8 +124,8 @@ const ProblemPage = () => {
                       <div className="text-indigo-300 mb-2 text-base font-semibold">
                         Input:
                       </div>
-                      <span className=" px-4 py-1 rounded-lg font-semibold text-white">
-                        {example.input.trim() || "No Input provided "}
+                      <span className="px-4 py-1 rounded-lg font-semibold text-white">
+                        {example.input.trim() || "No Input provided"}
                       </span>
                     </div>
 
@@ -140,7 +143,8 @@ const ProblemPage = () => {
                         Explanation:
                       </div>
                       <p className="text-base-content/70 text-lg font-sem">
-                        {example.explanation.trim() || "No example provided"}
+                        {example.explanation.trim() ||
+                          "No explanation provided"}
                       </p>
                     </div>
                   </div>
@@ -219,19 +223,10 @@ const ProblemPage = () => {
               <div className="tooltip" data-tip="Coming in v2">
                 <ThumbsUp className="w-4 h-4" />
               </div>
-              {/* <span>95% Success Rate</span> */}
             </div>
           </div>
         </div>
         <div className="flex-none gap-4">
-          {/* <button
-            className={`btn btn-ghost btn-circle ${
-              isBookmarked ? "text-primary" : ""
-            }`}
-            onClick={() => setIsBookmarked(!isBookmarked)}
-          >
-            <Bookmark className="w-5 h-5" />
-          </button> */}
           <div className="tooltip" data-tip="Coming in v2">
             <button className="btn btn-ghost btn-circle">
               <Share2 className="w-5 h-5" />
@@ -253,11 +248,9 @@ const ProblemPage = () => {
 
       <div className="container mx-auto p-4 min-w-[95%]">
         <PanelGroup direction="horizontal" className="w-full h-full">
-          {/* Left Panel (Description + Tabs) */}
           <Panel defaultSize={50} minSize={30}>
             <div className="card bg-base-100 shadow-xl h-full overflow-x-auto">
               <div className="card-body p-0">
-                {/* Tabs */}
                 <div className="tabs tabs-bordered">
                   <button
                     className={`tab gap-2 ${
@@ -296,18 +289,15 @@ const ProblemPage = () => {
                     Hints
                   </button>
                 </div>
-
                 <div className="p-6">{renderTabContent()}</div>
               </div>
             </div>
           </Panel>
 
-          {/* Resize Handle */}
           <PanelResizeHandle className="w-2 bg-white/70 hover:bg-white shadow-inner cursor-col-resize relative group">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-6 w-1 bg-base-300 rounded-full group-hover:bg-base-800 transition-all"></div>
           </PanelResizeHandle>
 
-          {/* Right Panel (SolveProblemRightPanel) */}
           <Panel defaultSize={50} minSize={25}>
             <div className="h-full overflow-x-auto">
               <SolveProblemRightPanel
