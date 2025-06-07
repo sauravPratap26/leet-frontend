@@ -23,6 +23,7 @@ const ProblemTile = ({
   activeTab,
   isProblemsLoading = false,
   isTeacher = false,
+  roomId = null,
 }) => {
   const [showPlaylistPopup, setShowPlaylistPopup] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
@@ -168,7 +169,7 @@ const ProblemTile = ({
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-yellow-500 hover:bg-yellow-600 text-black text-xs font-medium rounded-lg"
                   onClick={(e) => {
                     e.stopPropagation();
-                    navigate(`/edit/roomProblem/${problem.id}`);
+                    navigate(`/edit/roomProblem/${problem.id}/${roomId}`);
                   }}
                 >
                   <Minus size={12} />

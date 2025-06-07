@@ -120,6 +120,7 @@ const Playlist = () => {
                               : "playlistTile"
                           }
                           isTeacher={roomMember?.role === "TEACHER"}
+                          roomId={roomId}
                         />
                       );
                     }}

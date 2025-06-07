@@ -99,7 +99,7 @@ const App = () => {
             element={authUser ? <RoomPlayliist /> : <Navigate to="/login" />}
           />
           <Route
-            path="/edit/roomProblem/:id"
+            path="/edit/roomProblem/:id/:roomId"
             element={authUser ? <EditProblemForm/> : <Navigate to="/login" />}
           />
           <Route

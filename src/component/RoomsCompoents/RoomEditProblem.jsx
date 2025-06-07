@@ -16,7 +16,7 @@ import { useProblemStore } from "../../store/useProblemStore";
 // your axios setup
 
 const EditProblemForm = () => {
-  const { id } = useParams();
+  const { id, roomId } = useParams();
   const { getProblemById, problem, isProblemLoading } = useProblemStore();
   const {
     register,
@@ -69,7 +69,10 @@ const EditProblemForm = () => {
   const onSubmit = async (data) => {
     try {
       setIsLoading(true);
-      await axiosInstance.post(`/problem/update-problem/${problem.id}`, data);
+      await axiosInstance.post(`/problem/update-problem/${problem.id}`, {
+        ...data,
+        roomId,
+      });
       toast.success("Problem updated successfully ⚡");
     } catch (error) {
       console.log(error);
@@ -89,10 +92,10 @@ const EditProblemForm = () => {
   };
 
   if (isProblemLoading) {
-      <div className="flex items-center justify-center h-screen">
-        <Loader className="size-10 animate-spin" />
-      </div>;
-    }
+    <div className="flex items-center justify-center h-screen">
+      <Loader className="size-10 animate-spin" />
+    </div>;
+  }
   return (
     <div className="py-8 px-4 w-full max-w-max min-w-[100%]">
       <div className="card bg-base-100 shadow-xl">
