@@ -76,7 +76,7 @@ const RoomPlaylistTab = ({
   };
 
   const onDelete = async (data) => {
-    await deletePlaylist(data);
+    await deletePlaylist({ ...data, roomId: id });
     deleteReset();
     setDeleteModalOpen(false);
   };
@@ -185,7 +185,6 @@ const RoomPlaylistTab = ({
         </p>
       )}
 
-
       {createModalOpen && (
         <dialog open className="modal modal-open">
           <div className="modal-box">
@@ -233,7 +232,6 @@ const RoomPlaylistTab = ({
           </div>
         </dialog>
       )}
-
 
       {editModalOpen && (
         <dialog open className="modal modal-open">

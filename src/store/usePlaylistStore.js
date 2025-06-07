@@ -123,6 +123,30 @@ export const usePlaylistStore = create((set, get) => ({
     }
   },
 
+  deletePlylistFromRoom: async (reqBody) => {
+    try {
+      console.log(reqBody);
+      const res = await axiosInstance.delete("/playlist/delete", {
+        data: reqBody,
+      });
+      set((state) => {
+        const roomPlaylists = [...state.roomPlaylists];
+
+        const index = roomPlaylists.findIndex((p) => p.id === res.data.data.id);
+
+        if (index !== -1) {
+          roomPlaylists.splice(index, 1);
+        }
+
+        return {
+          roomPlaylists: [...roomPlaylists],
+        };
+      });
+    } catch (error) {
+      console.log("Error deleting playlist", error);
+      toast.error("Error deleting playlist from room");
+    }
+  },
   addProblemToPlaylist: async (reqBody) => {
     try {
       await axiosInstance.post("/playlist/add-problem", reqBody);
@@ -189,7 +213,9 @@ export const usePlaylistStore = create((set, get) => ({
   getBasicPlaylistDetails: async (id, roomId) => {
     try {
       set({ isPlaylistLoading: true });
-      const res = await axiosInstance.get(`/playlist/basic-room-playlist/${id}/${roomId}`);
+      const res = await axiosInstance.get(
+        `/playlist/basic-room-playlist/${id}/${roomId}`
+      );
       set({ playlist: res.data.data });
     } catch (error) {
       console.log("Error getting playlist ", error);

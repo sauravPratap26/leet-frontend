@@ -27,7 +27,7 @@ const RoomPlayliist = () => {
     roomPlaylists,
     addPlaylist,
     editPlaylistDetails,
-    deletePlaylist,
+    deletePlylistFromRoom,
     selectPlaylist,
     playlist,
   } = usePlaylistStore();
@@ -75,7 +75,7 @@ const RoomPlayliist = () => {
             roomPlaylists={roomPlaylists}
             addPlaylist={addPlaylist}
             editPlaylistDetails={editPlaylistDetails}
-            deletePlaylist={deletePlaylist}
+            deletePlaylist={deletePlylistFromRoom}
             selectPlaylist={selectPlaylist}
             playlist={playlist}
             roomMember={roomMember}
