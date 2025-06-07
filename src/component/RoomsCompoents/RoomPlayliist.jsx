@@ -41,7 +41,7 @@ const RoomPlayliist = () => {
     if (isTeacher) {
       getMembers(id);
     }
-    
+    getRoomMemberDetails(id);
     getRoomPlaylists({ id });
   }, [getMembers, getRoomMemberDetails, getRoomPlaylists, id, isTeacher]);
 
