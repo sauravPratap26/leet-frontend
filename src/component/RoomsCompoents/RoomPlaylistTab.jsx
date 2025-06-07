@@ -70,7 +70,7 @@ const RoomPlaylistTab = ({
   };
 
   const onEdit = async (data) => {
-    await editPlaylistDetails(data, true);
+    await editPlaylistDetails({ ...data, roomId: id }, true);
     editReset();
     setEditModalOpen(false);
   };
